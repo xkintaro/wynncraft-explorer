@@ -1,0 +1,108 @@
+
+player module
+------------------------------------
+
+https://api.wynncraft.com/v3/player/<str:username/uuid>
+
+https://api.wynncraft.com/v3/player/<str:username/uuid>/characters
+
+https://api.wynncraft.com/v3/player/<str:username/uuid>/characters/<str:characterUuid>
+
+https://api.wynncraft.com/v3/player/<str:username/uuid>/characters/<str:characterUuid>/abilities
+
+https://api.wynncraft.com/v3/player/whoami
+
+https://api.wynncraft.com/v3/player?identifier=<str:uuid/username>&server=<str/int:WC1/1, WC2/2>
+
+
+
+
+leaderboards module
+------------------------------------
+
+https://api.wynncraft.com/v3/leaderboards/types
+
+https://api.wynncraft.com/v3/leaderboards/<str:lb_type>?resultLimit=<int:resultLimit>
+
+
+
+
+
+
+
+guild module
+------------------------------------
+
+https://api.wynncraft.com/v3/guild/<str:guildName>?identifier=<str:username/uuid>
+
+https://api.wynncraft.com/v3/guild/prefix/<str:guildName>?identifier=<str:username/uuid>
+
+https://api.wynncraft.com/v3/guild/list/guild
+
+https://api.wynncraft.com/v3/guild/list/territory
+
+
+
+
+
+
+item module
+------------------------------------
+
+https://api.wynncraft.com/v3/item/database (?page=3,4,5...)
+
+https://api.wynncraft.com/v3/item/search
+
+https://api.wynncraft.com/v3/item/search/<str:query>
+
+https://api.wynncraft.com/v3/item/metadata
+
+
+
+
+
+ability & aspects module
+------------------------------------
+
+https://api.wynncraft.com/v3/ability/tree/<str:tree>
+
+https://api.wynncraft.com/v3/ability/map/<str:tree>
+
+https://api.wynncraft.com/v3/aspects/<str:tree>
+
+
+
+
+
+
+map module
+------------------------------------
+
+https://api.wynncraft.com/v3/map/locations/markers
+
+https://api.wynncraft.com/v3/map/locations/player
+
+https://api.wynncraft.com/v3/map/quests
+
+
+
+
+
+
+classes module
+
+------------------------------------
+
+https://api.wynncraft.com/v3/classes
+
+https://api.wynncraft.com/v3/classes/<str:class_name>
+
+
+
+
+
+
+news module
+------------------------------------
+
+https://api.wynncraft.com/v3/latest-news

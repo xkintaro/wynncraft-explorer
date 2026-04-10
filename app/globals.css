@@ -1,0 +1,514 @@
+@import "tailwindcss";
+
+@theme {
+  --font-jersey: var(--font-jersey);
+
+  --shadow-retro-sm: 4px 4px 0px 0px rgba(0, 0, 0, 0.7);
+  --shadow-retro-lg: 8px 8px 0px 0px rgba(0, 0, 0, 0.7);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@layer base {
+  body {
+    font-family: var(--font-inter);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-jersey);
+    letter-spacing: 0.05em;
+  }
+
+  i,
+  svg {
+    @apply shrink-0;
+  }
+}
+
+@layer utilities {}
+
+@layer components {
+  .global-container {
+    @apply max-w-6xl mx-auto;
+    @apply px-2 sm:px-4 lg:px-8;
+    @apply py-4 sm:py-8 lg:py-12;
+    @apply overflow-x-hidden;
+  }
+
+  .global-header {
+    @apply flex items-center gap-4 sm:gap-6 mb-8 sm:mb-10 lg:mb-12;
+  }
+
+  .global-title {
+    @apply text-4xl sm:text-6xl lg:text-7xl;
+    @apply font-jersey uppercase tracking-wider leading-none;
+    @apply flex items-center gap-2 sm:gap-4;
+    @apply whitespace-nowrap;
+
+    & svg,
+    & i {
+      @apply size-8 sm:size-10 lg:size-12;
+    }
+
+    .leaderboard-icon {
+      @apply text-amber-500;
+    }
+  }
+
+  .global-back-btn {
+    @apply size-10 sm:size-12;
+    @apply flex items-center justify-center;
+    @apply border-2 border-black bg-white;
+    @apply transition-all shadow-retro-sm hover:shadow-none hover:translate-x-1 hover:translate-y-1 active:bg-black;
+    @apply cursor-pointer shrink-0;
+
+    & svg,
+    & i {
+      @apply size-5 sm:size-6;
+      @apply text-black transition-colors;
+    }
+
+    &:active svg,
+    &:active i {
+      @apply text-white;
+    }
+  }
+
+  .global-table-wrapper {
+    @apply border-2 border-black bg-white;
+    @apply overflow-x-auto;
+
+    & table {
+      @apply w-full text-left border-collapse;
+
+      & thead {
+        & tr {
+          @apply bg-black text-white;
+          @apply text-xs font-bold uppercase tracking-widest;
+
+          & th {
+            @apply p-5 w-fit;
+            @apply not-last:border-r border-white/20;
+          }
+        }
+      }
+
+      & tbody {
+        & tr {
+          @apply not-last:border-b-2 border-black;
+          @apply transition-colors hover:bg-black/5;
+
+          & td {
+            @apply p-5 w-fit;
+            @apply border-r-2 border-black;
+            @apply text-2xl text-black/50 font-jersey;
+          }
+        }
+      }
+    }
+  }
+
+  /*--------------| News |--------------*/
+
+  .news-card {
+    @apply relative p-6 py-8 sm:p-8 sm:py-10 lg:p-10 lg:py-12;
+    @apply border-3 border-black bg-white;
+    @apply transition-all lg:shadow-retro-lg lg:hover:shadow-none lg:hover:translate-x-1 lg:hover:translate-y-1;
+
+    .badge-date {
+      @apply bg-amber-400 border-2 border-black;
+      @apply text-xs font-black uppercase tracking-widest;
+      @apply px-3 py-1;
+      @apply flex items-center gap-2;
+
+      & svg,
+      & i {
+        @apply size-3;
+      }
+    }
+
+    .badge-author {
+      @apply text-white bg-black border-2 border-black;
+      @apply text-xs font-black uppercase tracking-widest;
+      @apply px-3 py-1;
+    }
+
+    .title {
+      @apply text-4xl md:text-5xl;
+      @apply font-jersey uppercase leading-none;
+      @apply text-black transition-colors;
+      @apply mb-6;
+    }
+
+    &:hover .title {
+      @apply text-amber-500;
+    }
+
+    .content {
+      @apply text-black/50 text-sm font-sans font-medium leading-relaxed line-clamp-4;
+      @apply mb-8;
+    }
+
+    .footer {
+      @apply flex flex-col md:flex-row items-stretch md:items-center justify-between;
+      @apply gap-6 pt-8;
+      @apply border-t-2 border-black border-dashed;
+    }
+
+    .comments-icon {
+      @apply size-10;
+      @apply border-2 border-black bg-black/5;
+      @apply flex items-center justify-center;
+
+      & svg,
+      & i {
+        @apply size-5 text-black;
+      }
+    }
+
+    .comments-label {
+      @apply text-black/50 text-xs font-bold uppercase leading-none;
+    }
+
+    .comments-count {
+      @apply text-black text-xl font-jersey leading-none;
+    }
+
+    .btn {
+      @apply bg-black text-white hover:bg-amber-400 hover:text-black;
+      @apply transition-all shadow-retro-sm hover:shadow-none hover:translate-x-1 hover:translate-y-1;
+      @apply text-xs font-black uppercase tracking-widest;
+      @apply px-8 py-4;
+      @apply flex items-center justify-center gap-3;
+
+      & svg,
+      & i {
+        @apply size-4;
+      }
+    }
+  }
+
+  /*--------------| News End |--------------*/
+
+  /*--------------| Leaderboards End |--------------*/
+
+  .leaderboard-card {
+    @apply bg-white border-2 border-black;
+    @apply flex flex-col justify-between;
+    @apply p-4 sm:p-6 lg:p-8;
+    @apply transition-all hover:shadow-retro-lg hover:-translate-x-2 hover:-translate-y-2;
+
+    .icon {
+      @apply size-12 sm:size-16;
+      @apply flex items-center justify-center;
+      @apply border-2 border-black;
+      @apply shadow-retro-sm transition-transform;
+      @apply mb-4 sm:mb-6;
+
+      & svg,
+      & i {
+        @apply size-6 sm:size-8 text-black;
+      }
+    }
+
+    &:hover .icon {
+      @apply rotate-6;
+    }
+
+    .title {
+      @apply text-2xl sm:text-3xl;
+      @apply text-black font-jersey;
+      @apply uppercase tracking-wide leading-none;
+      @apply underline decoration-black/5 underline-offset-4;
+      @apply transition-all;
+      @apply mb-4;
+    }
+
+    &:hover .title {
+      @apply decoration-black;
+    }
+
+    .btn {
+      @apply text-xs text-black/50 font-black;
+      @apply flex items-center gap-2 uppercase tracking-widest;
+      @apply transition-all;
+
+      & svg,
+      & i {
+        @apply size-4;
+      }
+    }
+
+    &:hover .btn {
+      @apply gap-4 text-black;
+    }
+  }
+
+  /* Details Page */
+  .leaderboard-table-avatar {
+    @apply size-10 border-2 border-black bg-white;
+  }
+
+  .leaderboard-table-name {
+    @apply text-black uppercase tracking-wide;
+  }
+
+  .podium-card {
+    @apply relative p-8;
+    @apply border-4 border-black xl:shadow-retro-lg;
+    @apply transition-transform hover:-translate-y-2;
+
+    .rank-badge {
+      @apply absolute z-10;
+      @apply -top-4 -right-4 sm:-top-6 sm:-right-6;
+      @apply flex items-center justify-center;
+      @apply text-black font-jersey shadow-retro-sm;
+      @apply border-4 border-black bg-white;
+      @apply text-3xl sm:text-5xl;
+      @apply size-12 sm:size-16;
+    }
+
+    div .avatar-badge {
+      @apply relative flex items-center justify-center overflow-hidden;
+      @apply size-24;
+      @apply border-4 border-black bg-white shadow-retro-sm;
+      @apply mb-6;
+
+      .line {
+        @apply absolute top-0 inset-x-0 w-full h-2 bg-amber-500;
+      }
+
+      & svg,
+      & i {
+        @apply size-12 text-amber-500;
+      }
+    }
+
+    .avatar-user {
+      @apply h-48 mb-4;
+    }
+
+    .title {
+      @apply text-3xl font-jersey text-black;
+      @apply uppercase tracking-wider leading-none;
+      @apply mb-2;
+    }
+
+    .prefix {
+      @apply text-sm font-bold text-black/50;
+      @apply uppercase tracking-widest;
+      @apply mb-4;
+    }
+
+    .content {
+      @apply w-full p-2 sm:p-4 space-y-2;
+      @apply border-2 border-black bg-white/50;
+      @apply mb-6;
+
+      .item {
+        @apply flex items-center justify-between;
+        @apply text-xs text-black/40 font-bold uppercase tracking-widest;
+
+        .default {
+          @apply text-black text-base font-jersey;
+        }
+
+        .xp {
+          @apply text-emerald-600 text-xs font-black truncate max-w-[180px];
+        }
+
+        .territories {
+          @apply text-blue-500 text-base font-jersey;
+        }
+      }
+    }
+
+    .btn {
+      @apply flex items-center justify-center;
+      @apply w-full py-3 gap-2;
+      @apply border-2 border-black bg-black text-white;
+      @apply transition-all hover:bg-white hover:text-black;
+      @apply text-xs font-black uppercase tracking-widest;
+
+      & i,
+      & svg {
+        @apply size-4 transition-transform;
+      }
+
+      &:hover i,
+      &:hover svg {
+        @apply translate-x-1;
+      }
+    }
+  }
+
+  /*--------------| Leaderboards End |--------------*/
+
+  /*--------------| Guilds |--------------*/
+
+  .guild-search-bar {
+    @apply relative flex items-center px-4 gap-3;
+    @apply border-2 border-black bg-white sm:shadow-retro-sm;
+    @apply transition-all sm:focus-within:shadow-none sm:focus-within:translate-x-1 sm:focus-within:translate-y-1;
+
+    & svg,
+    & i {
+      @apply size-5 text-black/30;
+    }
+
+    & input {
+      @apply w-full py-4 text-sm font-black uppercase tracking-widest bg-transparent outline-none placeholder:text-black/30;
+    }
+  }
+
+
+  .guild-result-count-label {
+    @apply text-black/50 text-xs font-bold uppercase;
+  }
+
+  .guild-result-count {
+    @apply text-3xl font-jersey;
+  }
+
+  .guild-card {
+    @apply relative flex items-center justify-between p-6;
+    @apply border-2 border-black bg-white shadow-retro-sm;
+    @apply transition-all hover:shadow-none hover:translate-x-1 hover:translate-y-1;
+
+    .content {
+      @apply flex items-center gap-4;
+
+      .icon {
+        @apply flex items-center justify-center;
+        @apply size-12 border-2 border-dashed border-black/20;
+
+        svg,
+        i {
+          @apply size-6 text-black/20 block;
+        }
+      }
+
+      div .title {
+        @apply text-2xl font-jersey;
+        @apply uppercase tracking-wider leading-none;
+        @apply mb-1;
+      }
+
+      div .prefix {
+        @apply text-xs font-bold;
+        @apply uppercase;
+        @apply border border-black text-black/50;
+        @apply px-1.5 py-0.5;
+      }
+    }
+
+    & i,
+    & svg {
+      @apply size-5 text-black/20 transition-colors max-sm:hidden;
+    }
+
+    &:hover i,
+    &:hover svg {
+      @apply text-black;
+    }
+  }
+
+  .guild-pagination-btn {
+    @apply border-2 border-black;
+    @apply size-10;
+    @apply transition-all hover:bg-black hover:text-white;
+    @apply flex items-center justify-center;
+    @apply disabled:opacity-20 not-disabled:cursor-pointer;
+
+    & svg,
+    & i {
+      @apply size-5;
+    }
+  }
+
+  .guild-pagination-info {
+    @apply flex items-center gap-4 px-4 h-10;
+    @apply border-2 border-black bg-white;
+    @apply text-xs font-bold uppercase tracking-widest;
+
+    & span {
+      @apply text-black/20;
+    }
+  }
+
+  .guild-empty {
+    @apply flex flex-col items-center justify-center text-center;
+    @apply py-16 sm:py-24 px-4;
+    @apply text-black/20 border-2 border-black border-dashed;
+    @apply uppercase font-black tracking-widest;
+  }
+
+  .territory-card {
+    @apply relative p-6 h-full;
+    @apply border-2 border-black bg-white shadow-retro-sm;
+    @apply transition-all hover:shadow-none hover:translate-x-1 hover:translate-y-1;
+
+    .header {
+      @apply flex items-center justify-between;
+      @apply border-b border-black/50;
+      @apply mb-4 pb-4;
+
+      .title {
+        @apply text-2xl font-jersey uppercase tracking-wider leading-none;
+      }
+
+      .icon {
+        @apply flex items-center justify-center shrink-0;
+        @apply size-8;
+        @apply border border-black;
+
+        svg,
+        i {
+          @apply size-4 text-black/50;
+        }
+      }
+    }
+
+    .item {
+      @apply flex justify-between items-end;
+
+      .label {
+        @apply text-xs text-black/50;
+        @apply font-bold uppercase leading-none;
+      }
+
+      .value {
+        @apply text-sm font-bold uppercase tracking-widest;
+      }
+    }
+  }
+
+  .guild-founded {
+    @apply text-xs font-bold uppercase tracking-widest;
+    @apply text-black/50;
+    @apply flex items-center gap-2;
+    @apply mb-8;
+
+    & svg,
+    & i {
+      @apply size-4;
+    }
+  }
+
+  /*--------------| Guilds End |--------------*/
+}
