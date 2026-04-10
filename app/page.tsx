@@ -51,26 +51,13 @@ export default function Home() {
     };
 
     return (
-        <div className="max-w-6xl mx-auto py-12 px-8">
+        <div className="global-container">
 
-            <header className="mb-20 space-y-6">
+            <header className="global-header">
 
-                <div className="inline-block border-4 border-black bg-amber-400 px-6 py-2 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] -rotate-1 mb-6">
-                    <span className="text-xl font-black uppercase tracking-[0.3em]">
-                        Wynncraft v3
-                    </span>
+                <div className="inline-block border-4 border-black bg-amber-400 px-6 py-2 shadow-retro-lg -rotate-1 text-xl font-black uppercase tracking-[0.3em]">
+                    Wynncraft v3
                 </div>
-
-                <h1 className="text-8xl md:text-9xl font-jersey text-black leading-none uppercase tracking-tighter">
-                    Wynn Explorer<br />
-                    <span className="text-amber-500">
-                        Portal
-                    </span>
-                </h1>
-
-                <p className="text-2xl font-bold text-black/50 uppercase tracking-tight max-w-2xl leading-relaxed italic border-l-8 border-black pl-8 mt-8">
-                    Efsanevi MMORPG dünyasına açılan en kapsamlı kapınız. Oyuncuları, loncaları ve en son gelişmeleri tek bir merkezden takip edin.
-                </p>
 
             </header>
 
@@ -90,35 +77,46 @@ export default function Home() {
                                     <Search className="w-6 h-6 text-black" />
                                 </div>
 
-                                <h2 className="text-5xl font-jersey uppercase tracking-wide">Oyuncu Keşfet</h2>
+                                <h2 className="text-5xl font-jersey uppercase tracking-wide">
+                                    Explore Player
+                                </h2>
+
                             </div>
 
                             <div className="border-4 border-black bg-slate-50 relative group">
+
                                 <form onSubmit={handleSearch} className="flex flex-col sm:flex-row p-1">
+
                                     <div className="relative flex-1 flex items-center">
+
                                         <div className="absolute left-6 text-black/20 group-focus-within:text-amber-500 transition-colors">
                                             <Shield className="w-6 h-6" />
                                         </div>
+
                                         <input
                                             type="text"
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
                                             required
-                                            placeholder="OYUNCU ADI VEYA UUID..."
+                                            placeholder="PLAYER NAME OR UUID..."
                                             className="w-full bg-transparent py-6 pl-16 pr-6 outline-none font-black tracking-widest text-sm placeholder:text-black/10"
                                         />
+
                                     </div>
+
                                     <button
                                         type="submit"
                                         className="bg-black text-white px-12 py-4 font-black uppercase tracking-[0.2em] text-xs hover:bg-amber-400 hover:text-black transition-all flex items-center justify-center gap-3 cursor-pointer"
                                     >
-                                        KEŞFET <Search className="w-4 h-4" />
+                                        EXPLORE <Search className="w-4 h-4" />
                                     </button>
+
                                 </form>
+
                             </div>
 
                             <p className="text-xs font-black text-black/30 uppercase tracking-widest">
-                                * Oyuncunun UUID veya Kullanıcı Adı ile arama yapabilirsiniz.
+                                * Search by player UUID or Username.
                             </p>
 
                         </div>
@@ -126,18 +124,25 @@ export default function Home() {
                     </section>
 
                     <section className="space-y-8">
+
                         <div className="flex items-center justify-between border-b-4 border-black pb-4">
+
                             <h2 className="text-5xl font-jersey text-black uppercase flex items-center gap-4">
-                                <Newspaper className="w-8 h-8" /> Haberler
+
+                                <Newspaper className="w-8 h-8" />
+
+                                News
                             </h2>
+
                             <Link href="/news" className="text-xs font-black uppercase tracking-widest hover:underline decoration-4 underline-offset-8">
-                                Tüm Haberler
+                                All News
                             </Link>
+
                         </div>
 
                         <div className="space-y-6">
                             {loading ? (
-                                [1, 2, 3].map(i => <div key={i} className="h-32 border-4 border-black bg-slate-50 animate-pulse" />)
+                                [1, 2, 3].map(i => <div key={i} className="h-32 border-4 border-black bg-black/10 animate-pulse" />)
                             ) : (
                                 newsData && newsData.slice(0, 3).map((newsItem: any, idx: number) => (
                                     <Link
@@ -156,7 +161,7 @@ export default function Home() {
                                             {newsItem.title}
                                         </h3>
                                         <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-black/40 group-hover:text-black transition-colors">
-                                            Haberi Oku <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+                                            Read News <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
                                         </div>
                                     </Link>
                                 ))
@@ -170,7 +175,7 @@ export default function Home() {
                     <section className="space-y-8">
                         <div className="flex items-center gap-4 border-b-4 border-black pb-4">
                             <Zap className="w-8 h-8 text-amber-500" />
-                            <h2 className="text-5xl font-jersey text-black uppercase">Sınıflar</h2>
+                            <h2 className="text-5xl font-jersey text-black uppercase">Classes</h2>
                         </div>
 
                         <div className="grid grid-cols-1 gap-4">
@@ -209,13 +214,13 @@ export default function Home() {
 
                     <div className="border-4 border-black bg-slate-900 p-8 text-white space-y-6 shadow-[12px_12px_0px_0px_rgba(245,158,11,1)]">
                         <Flame className="w-12 h-12 text-amber-500 animate-pulse" />
-                        <h3 className="text-5xl font-jersey uppercase leading-none">Keşfetmeye<br />Başla!</h3>
+                        <h3 className="text-5xl font-jersey uppercase leading-none">Start<br />Exploring!</h3>
                         <p className="text-xs font-bold uppercase tracking-widest text-white/50 leading-relaxed">
-                            Wynncraft dünyasının en güncel verilerine erişin. Lonca savaşlarını, bölgeleri ve oyuncu istatistiklerini anlık takip edin.
+                            Access the most up-to-date data of the Wynncraft world. Track guild wars, regions, and player statistics instantly.
                         </p>
                         <div className="pt-4">
                             <Link href="/leaderboards" className="block w-full py-4 bg-amber-400 text-black text-center font-black uppercase tracking-widest text-xs hover:bg-white transition-colors border-2 border-transparent hover:border-black">
-                                Sıralamalara Göz At
+                                Check Leaderboards
                             </Link>
                         </div>
                     </div>

@@ -65,29 +65,77 @@ export default async function GuildDetailPage({
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
 
-                    <StatBox
-                        label="Level"
-                        value={data.level}
-                        icon={<Star className="size-4 text-black" />}
-                    />
+                    <div className="guild-stat-card">
 
-                    <StatBox
-                        label="Territories"
-                        value={data.territories}
-                        icon={<MapPin className="size-4 text-black" />}
-                    />
+                        <div className="header">
 
-                    <StatBox
-                        label="Members"
-                        value={`${data.members?.total || 0}`}
-                        icon={<Users className="size-4 text-black" />}
-                    />
+                            <span className="label">
+                                Level
+                            </span>
 
-                    <StatBox
-                        label="Wars"
-                        value={data.wars?.toLocaleString() || 0}
-                        icon={<Sword className="size-4 text-black" />}
-                    />
+                            <Star />
+
+                        </div>
+
+                        <div className="value">
+                            {data.level}
+                        </div>
+
+                    </div>
+
+                    <div className="guild-stat-card">
+
+                        <div className="header">
+
+                            <span className="label">
+                                Territories
+                            </span>
+
+                            <MapPin />
+
+                        </div>
+
+                        <div className="value">
+                            {data.territories}
+                        </div>
+
+                    </div>
+
+                    <div className="guild-stat-card">
+
+                        <div className="header">
+
+                            <span className="label">
+                                Members
+                            </span>
+
+                            <Users />
+
+                        </div>
+
+                        <div className="value">
+                            {data.members?.total || 0}
+                        </div>
+
+                    </div>
+
+                    <div className="guild-stat-card">
+
+                        <div className="header">
+
+                            <span className="label">
+                                Wars
+                            </span>
+
+                            <Sword />
+
+                        </div>
+
+                        <div className="value">
+                            {data.wars?.toLocaleString() || 0}
+                        </div>
+
+                    </div>
 
                 </div>
 
@@ -97,18 +145,19 @@ export default async function GuildDetailPage({
 
                         <header className="mb-6">
 
-                            <span className="text-[10px] font-black uppercase tracking-widest text-black/50 block mb-1">
-                                Guild Leadership</span>
+                            <span className="guild-leader-subtitle">
+                                Guild Leadership
+                            </span>
 
-                            <h2 className="text-4xl font-jersey uppercase tracking-wider">
+                            <h2 className="guild-leader-title">
                                 The Leader
                             </h2>
 
                         </header>
 
-                        <div className="relative max-w-md p-8 border-4 border-black bg-white sm:shadow-retro-lg transition-all sm:hover:shadow-none sm:hover:translate-x-1 sm:hover:translate-y-1">
+                        <div className="guild-leader-card">
 
-                            <div className="flex items-center gap-6">
+                            <div className="header">
 
                                 <div className="relative shrink-0">
 
@@ -124,22 +173,22 @@ export default async function GuildDetailPage({
 
                                 <div className="flex-1">
 
-                                    <span className="text-[10px] font-black uppercase px-2 py-0.5 bg-black text-white border border-black mb-2 inline-block tracking-widest">
+                                    <span className="owner-badge">
                                         OWNER
                                     </span>
 
-                                    <h3 className="text-4xl font-jersey uppercase tracking-wider mb-1 leading-none">
+                                    <h3 className="owner-name">
                                         {owner.name}
                                     </h3>
 
                                     {owner.online && owner.server && (
-                                        <p className="text-[10px] font-black text-emerald-600 tracking-[0.2em] uppercase">
+                                        <p className="owner-online">
                                             Online on {owner.server}
                                         </p>
                                     )}
 
                                     {!owner.online && (
-                                        <p className="text-[10px] font-black text-black/20 tracking-[0.2em] uppercase italic">
+                                        <p className="owner-offline">
                                             Last seen offline
                                         </p>
                                     )}
@@ -148,15 +197,15 @@ export default async function GuildDetailPage({
 
                             </div>
 
-                            <div className="mt-8 pt-6 border-t-2 border-black border-dashed flex items-center justify-between">
+                            <div className="footer">
 
                                 <div>
 
-                                    <span className="text-xs font-black uppercase text-black/50 block">
+                                    <span className="contribution-label">
                                         Contribution
                                     </span>
 
-                                    <span className="font-jersey text-2xl">
+                                    <span className="contribution-value">
                                         {owner.contributed?.toLocaleString() || 0}
                                     </span>
 
@@ -164,9 +213,9 @@ export default async function GuildDetailPage({
 
                                 <Link
                                     href={`/player/${owner.uuid || owner.name}`}
-                                    className="h-10 w-10 border-2 border-black flex items-center justify-center hover:bg-black hover:text-white transition-all"
+                                    className="btn"
                                 >
-                                    <ExternalLink className="w-4 h-4" />
+                                    <ExternalLink />
                                 </Link>
 
                             </div>
@@ -195,29 +244,3 @@ export default async function GuildDetailPage({
     }
 
 }
-
-function StatBox({ label, value, icon }: { label: string, value: any, icon: React.ReactNode }) {
-    return (
-
-        <div className="relative border-2 border-black bg-white p-6 shadow-retro-sm">
-
-            <div className="flex items-center justify-between mb-4">
-
-                <span className="text-xs font-black uppercase text-black/50 tracking-widest">
-                    {label}
-                </span>
-
-                {icon}
-
-            </div>
-
-            <div className="font-jersey text-4xl uppercase leading-none">
-                {value}
-            </div>
-
-        </div>
-
-    );
-
-}
-

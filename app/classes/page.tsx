@@ -1,70 +1,72 @@
 import { ClassService } from '@/api/classService';
-import { CLASS_CONFIG } from '@/lib/constants';
-import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
 
-export default async function AbilitiesPage() {
+import { CLASS_CONFIG } from '@/lib/constants';
+
+import Link from 'next/link';
+
+import { ArrowLeft, Shell, Star } from 'lucide-react';
+
+export default async function ClassesPage() {
+
     const classes = await ClassService.getAll();
     const classEntries = Object.entries(classes);
 
     return (
-        <div className='max-w-6xl mx-auto px-6 py-12'>
+        <div className="global-container">
 
-            <div className="flex items-center gap-4 mb-8">
-                <Link href="/" className="back-btn">
+            <header className="global-header">
+
+                <Link href="/" className="global-back-btn">
                     <ArrowLeft />
                 </Link>
-            </div>
 
-            <h1 className="text-6xl">
-                Classes
-            </h1>
+                <h1 className="global-title">
+                    <Shell />
+                    Classes
+                </h1>
 
-            <div className="space-y-6">
+            </header>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
                 {classEntries.map(([key, info]) => {
-
                     const config = CLASS_CONFIG[key.toUpperCase()] || CLASS_CONFIG.WARRIOR;
                     const IconComp = config.icon;
 
                     return (
 
-                        <div key={key} className={`border-2 ${config.cardBorder} p-6 ${config.cardHover} transition-all`}>
+                        <Link href={`/classes/${key}`} key={key} className="class-card">
 
-                            <div className="flex items-center justify-between mb-5">
+                            <div className="flex items-center justify-between mb-6">
 
-                                <div className="flex items-center gap-4">
+                                <div className="icon">
+                                    <IconComp className={`${config.textColor}`} />
+                                </div>
 
-                                    <div className={`w-12 h-12 border-2 ${config.cardBorder} flex items-center justify-center`}>
+                                <div className="flex flex-col items-end">
 
-                                        <IconComp className={`w-6 h-6 ${config.cardText}`} />
+                                    <span className="difficulty-label">
+                                        Difficulty
+                                    </span>
 
-                                    </div>
-
-                                    <div>
-
-                                        <h2 className="text-3xl font-jersey  uppercase tracking-wider leading-none">
-                                            {info.name}
-                                        </h2>
-
-                                        <span className="text-xs uppercase tracking-[0.3em]">
-                                            Zorluk: {info.overallDifficulty}/3
-                                        </span>
-
+                                    <div className="flex gap-1">
+                                        {[...Array(3)].map((_, i) => (
+                                            <Star
+                                                key={i}
+                                                className={`size-3 ${i < info.overallDifficulty ? 'fill-amber-400 text-amber-400' : 'text-black/20'}`}
+                                            />
+                                        ))}
                                     </div>
 
                                 </div>
 
                             </div>
 
-                            <Link
-                                href={`/classes/${key}`}
-                                className="p-5 border border-black"
-                            >
-                                View Class
-                            </Link>
+                            <h2 className="title">
+                                {info.name}
+                            </h2>
 
-                        </div>
+                        </Link>
 
                     );
 
@@ -73,5 +75,7 @@ export default async function AbilitiesPage() {
             </div>
 
         </div>
+
     );
+
 }

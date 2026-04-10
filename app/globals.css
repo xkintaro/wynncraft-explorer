@@ -117,6 +117,14 @@
             @apply p-5 w-fit;
             @apply border-r-2 border-black;
             @apply text-2xl text-black/50 font-jersey;
+
+            .table-avatar {
+              @apply size-10 border-2 border-black bg-white;
+            }
+
+            .table-username {
+              @apply text-black uppercase tracking-wide;
+            }
           }
         }
       }
@@ -260,14 +268,6 @@
   }
 
   /* Details Page */
-  .leaderboard-table-avatar {
-    @apply size-10 border-2 border-black bg-white;
-  }
-
-  .leaderboard-table-name {
-    @apply text-black uppercase tracking-wide;
-  }
-
   .podium-card {
     @apply relative p-8;
     @apply border-4 border-black xl:shadow-retro-lg;
@@ -372,7 +372,7 @@
     }
 
     & input {
-      @apply w-full py-4 text-sm font-black uppercase tracking-widest bg-transparent outline-none placeholder:text-black/30;
+      @apply w-full py-4 text-sm font-black tracking-widest bg-transparent outline-none placeholder:text-black/30;
     }
   }
 
@@ -426,6 +426,10 @@
     &:hover svg {
       @apply text-black;
     }
+
+    &:hover .title {
+      @apply underline;
+    }
   }
 
   .guild-pagination-btn {
@@ -465,7 +469,7 @@
 
     .header {
       @apply flex items-center justify-between;
-      @apply border-b border-black/50;
+      @apply border-b border-black/50 border-dashed;
       @apply mb-4 pb-4;
 
       .title {
@@ -493,8 +497,34 @@
       }
 
       .value {
-        @apply text-sm font-bold uppercase tracking-widest;
+        @apply text-sm font-bold uppercase tracking-widest truncate max-w-[180px];
       }
+    }
+
+    &:hover .title {
+      @apply underline;
+    }
+  }
+
+  .guild-stat-card {
+    @apply relative border-2 border-black bg-white p-6 shadow-retro-sm overflow-hidden;
+
+    .header {
+      @apply flex items-center justify-between;
+      @apply mb-4;
+
+      .label {
+        @apply text-xs font-black uppercase text-black/50 tracking-widest;
+      }
+
+      svg,
+      i {
+        @apply size-4 text-black;
+      }
+    }
+
+    .value {
+      @apply font-jersey text-4xl uppercase leading-none;
     }
   }
 
@@ -510,5 +540,115 @@
     }
   }
 
+  .guild-leader-subtitle {
+    @apply text-xs text-black/50 font-bold;
+    @apply uppercase tracking-widest block;
+    @apply mb-1;
+  }
+
+  .guild-leader-title,
+  .guild-roster-title {
+    @apply text-4xl font-jersey uppercase tracking-wider;
+  }
+
+  .guild-leader-card {
+    @apply relative max-w-md p-8 border-4 border-black bg-white sm:shadow-retro-lg overflow-hidden transition-all sm:hover:shadow-none sm:hover:translate-x-1 sm:hover:translate-y-1;
+
+    .header {
+      @apply flex items-center gap-6;
+    }
+
+    .owner-badge {
+      @apply text-xs font-black uppercase px-2 py-0.5 bg-black text-white border border-black mb-2 inline-block tracking-widest;
+    }
+
+    .owner-name {
+      @apply text-4xl font-jersey uppercase tracking-wider mb-1 leading-none;
+    }
+
+    .owner-online {
+      @apply text-xs font-black text-emerald-600 tracking-widest uppercase italic;
+    }
+
+    .owner-offline {
+      @apply text-xs font-black text-black/50 tracking-widest uppercase italic;
+    }
+
+    .footer {
+      @apply mt-8 pt-6 border-t-2 border-black border-dashed flex items-center justify-between;
+
+      .contribution-label {
+        @apply text-xs font-black uppercase text-black/50 block;
+      }
+
+      .contribution-value {
+        @apply font-jersey text-2xl;
+      }
+
+      .btn {
+        @apply size-10 border-2 border-black flex items-center justify-center hover:bg-black hover:text-white transition-all;
+
+        & svg,
+        & i {
+          @apply size-4;
+        }
+      }
+    }
+  }
+
+  .guild-total-members {
+    @apply text-xs font-black uppercase text-black/40 tracking-widest leading-none;
+  }
+
+  .guild-matched-members {
+    @apply text-xs font-black uppercase text-amber-600 tracking-widest leading-none;
+  }
+
+  .guild-rank-badge {
+    @apply text-sm;
+    @apply px-2 py-0.5;
+    @apply border border-black;
+    @apply uppercase tracking-widest;
+  }
+
   /*--------------| Guilds End |--------------*/
+
+  /*--------------| Classes |--------------*/
+
+  .class-card {
+    @apply flex flex-col p-6 overflow-hidden;
+    @apply border-4 border-black bg-white lg:shadow-retro-lg;
+    @apply transition-all lg:hover:shadow-none lg:hover:translate-x-1 lg:hover:translate-y-1;
+
+    .icon {
+      @apply border-2 border-black bg-white shadow-retro-sm;
+      @apply transition-all p-4;
+
+      svg,
+      i {
+        @apply size-8;
+      }
+    }
+
+    &:hover .icon {
+      @apply -rotate-6;
+    }
+
+    .difficulty-label {
+      @apply text-xs font-black text-black/50;
+      @apply uppercase tracking-widest;
+      @apply mb-1;
+    }
+
+    .title {
+      @apply text-4xl font-jersey uppercase tracking-wider;
+      @apply mb-2;
+    }
+
+    &:hover .title {
+      @apply underline;
+    }
+  }
+
+  /*--------------| Classes End |--------------*/
 }

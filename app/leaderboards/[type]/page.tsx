@@ -148,11 +148,11 @@ export default async function LeaderboardDetailPage({
 
                                                         <img
                                                             src={`https://visage.surgeplay.com/bust/48/${entry.uuid}`}
-                                                            className="leaderboard-table-avatar"
+                                                            className="table-avatar"
                                                             alt={entry.name}
                                                         />
 
-                                                        <span className="leaderboard-table-name">
+                                                        <span className="table-username">
                                                             {entry.name}
                                                         </span>
 
