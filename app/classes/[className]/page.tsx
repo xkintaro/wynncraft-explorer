@@ -1,12 +1,19 @@
 'use client';
 
 import { useState, useEffect, useMemo, use } from 'react';
+
 import { ChevronLeft, ChevronRight, Shield, Book, Star, ArrowLeft, Loader2, Sparkles } from 'lucide-react';
+
 import Link from 'next/link';
+
 import { AbilityService } from '@/api/abilityService';
+
 import { ClassService } from '@/api/classService';
-import { RARITY_COLORS } from '@/lib/constants';
+
+import { RARITY_COLORS, CLASS_CONFIG } from '@/lib/constants';
+
 import { stripHtml, stripColorCodes, getNodeColorTw, getArchetypeHeaderColor } from '@/lib/utils';
+
 import ConnectorSvg from '@/components/ConnectorSvg';
 
 interface TreeData {
@@ -41,7 +48,7 @@ export default function ClassUnifiedPage({ params }: { params: Promise<{ classNa
     const [currentPage, setCurrentPage] = useState(1);
     const [hoveredAbilityId, setHoveredAbilityId] = useState<string | null>(null);
     const [selectedAbilityIds, setSelectedAbilityIds] = useState<string[]>([]);
-    const [activeTab, setActiveTab] = useState<'tree' | 'aspects'>('tree');
+    const [activeTab, setActiveTab] = useState<'archetypes' | 'tree' | 'aspects'>('archetypes');
 
     useEffect(() => {
         let isMounted = true;
@@ -73,11 +80,6 @@ export default function ClassUnifiedPage({ params }: { params: Promise<{ classNa
         return () => { isMounted = false; };
     }, [className]);
 
-    const hoveredTreeLogic = useMemo(() => {
-        if (!hoveredAbilityId || !treeData) return null;
-        return treeData.pages[String(currentPage)]?.[hoveredAbilityId] || null;
-    }, [hoveredAbilityId, treeData, currentPage]);
-
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center flex-col gap-4 text-amber-500">
@@ -96,68 +98,71 @@ export default function ClassUnifiedPage({ params }: { params: Promise<{ classNa
     }
 
     return (
-        <div>
+        <div className="global-container">
 
-            <div className="border-b-4 border-black py-6">
+            <header className="global-header">
 
-                <div className="max-w-[1600px] mx-auto px-6">
+                <Link href="/classes" className="global-back-btn">
 
-                    <div className="flex items-start justify-between">
+                    <ArrowLeft />
 
-                        <div>
+                </Link>
 
-                            <div className="flex items-center gap-4 mb-8">
-                                <Link href="/classes" className="back-btn">
-                                    <ArrowLeft />
-                                </Link>
-                            </div>
+                <h1 className="global-title">
+                    {(() => {
+                        const config = CLASS_CONFIG[className.toUpperCase()] || CLASS_CONFIG.WARRIOR;
+                        const Icon = config.icon;
+                        return <Icon className={config.textColor} />;
+                    })()}
 
-                            <h1 className="text-4xl font-jersey uppercase tracking-wider leading-none flex items-center gap-3">
+                    {classData.name}
 
-                                <Sparkles className="w-6 h-6 text-amber-400" />
+                </h1>
 
-                                {classData.name}
+            </header>
 
-                            </h1>
+            <p className="mb-10">
+                {classData.lore}
+            </p>
 
-                            <p className="text-xs mt-3 max-w-2xl leading-relaxed">
-                                {classData.lore}
-                            </p>
 
-                        </div>
 
-                    </div>
+            <div className="flex my-8">
 
-                </div>
+                <button
+                    onClick={() => setActiveTab('archetypes')}
+                    className={`flex items-center gap-2 px-6 py-2 text-xs font-black uppercase tracking-widest transition-all 
+                                ${activeTab === 'archetypes' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'border border-black'}`}
+                >
+                    archetypes
+                </button>
+
+                <button
+                    onClick={() => setActiveTab('tree')}
+                    className={`flex items-center gap-2 px-6 py-2 text-xs font-black uppercase tracking-widest transition-all 
+                                ${activeTab === 'tree' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'border border-black'}`}
+                >
+                    Tree
+                </button>
+
+                <button
+                    onClick={() => setActiveTab('aspects')}
+                    className={`flex items-center gap-2 px-6 py-2 text-xs font-black uppercase tracking-widest transition-all 
+                                ${activeTab === 'aspects' ? 'bg-violet-500/20 text-violet-400 border border-violet-500/30' : 'border border-black'}`}
+                >
+                    Aspects
+                </button>
 
             </div>
 
-            <div className="max-w-[1600px] mx-auto px-6 py-6 pb-24">
+            {
+                activeTab === 'archetypes' && (
+                    <ArchetypesModuleView archetypes={treeData.archetypes} classArchetypes={classData.archetypes} />
+                )
+            }
 
-                <ArchetypesModuleView archetypes={treeData.archetypes} classArchetypes={classData.archetypes} />
-
-                <div className="flex my-8">
-
-                    <button
-                        onClick={() => setActiveTab('tree')}
-                        className={`flex items-center gap-2 px-6 py-2 text-xs font-black uppercase tracking-widest transition-all 
-                                ${activeTab === 'tree' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'border border-black'}`}
-                    >
-                        Tree
-                    </button>
-
-                    <button
-                        onClick={() => setActiveTab('aspects')}
-                        className={`flex items-center gap-2 px-6 py-2 text-xs font-black uppercase tracking-widest transition-all 
-                                ${activeTab === 'aspects' ? 'bg-violet-500/20 text-violet-400 border border-violet-500/30' : 'border border-black'}`}
-                    >
-                        Aspects
-                    </button>
-
-                </div>
-
-
-                {activeTab === 'tree' && (
+            {
+                activeTab === 'tree' && (
                     <TreeModuleView
                         treeData={treeData}
                         mapData={mapData}
@@ -169,15 +174,16 @@ export default function ClassUnifiedPage({ params }: { params: Promise<{ classNa
                         selectedAbilityIds={selectedAbilityIds}
                         setSelectedAbilityIds={setSelectedAbilityIds}
                     />
-                )}
+                )
+            }
 
-                {activeTab === 'aspects' && (
+            {
+                activeTab === 'aspects' && (
                     <AspectsModuleView aspects={aspectsData} />
-                )}
+                )
+            }
 
-            </div>
-
-        </div>
+        </div >
 
     );
 
@@ -225,21 +231,15 @@ function AspectsModuleView({ aspects }: { aspects: Record<string, AspectData> })
 
                                 <div key={key} className={`border-2 ${colors.border} ${colors.bg} p-6 h-fit flex flex-col`}>
 
-                                    <div className="flex items-start justify-between mb-5 pb-4 border-b border-black">
+                                    <div className="mb-5 pb-4 border-b border-black">
 
-                                        <div>
+                                        <h3 className="text-2xl font-jersey text-black uppercase tracking-wider mb-2 leading-none">
+                                            {aspect.name}
+                                        </h3>
 
-                                            <h3 className="text-2xl font-jersey text-black uppercase tracking-wider mb-2 leading-none">
-                                                {aspect.name}
-                                            </h3>
-
-                                            <span className={`text-[8px] px-2 py-0.5 ${colors.badge} uppercase tracking-[0.2em] font-black block w-fit`}>
-                                                {rarity}
-                                            </span>
-
-                                        </div>
-
-                                        <Shield className={`w-6 h-6 ${colors.text} shrink-0 opacity-50`} />
+                                        <span className={`text-[8px] px-2 py-0.5 ${colors.badge} uppercase tracking-[0.2em] font-black block w-fit`}>
+                                            {rarity}
+                                        </span>
 
                                     </div>
 
@@ -386,10 +386,6 @@ function ArchetypesModuleView({ archetypes, classArchetypes }: { archetypes: Rec
                                         {stripHtml(arch.shortDescription)}
                                     </p>
 
-                                    <span className="text-[9px] border border-black px-2 py-0.5 text-black/50 uppercase tracking-[0.2em] font-black">
-                                        Slot: {arch.slot}
-                                    </span>
-
                                 </div>
 
                             </div>
@@ -398,7 +394,7 @@ function ArchetypesModuleView({ archetypes, classArchetypes }: { archetypes: Rec
 
                         {detailedStats && (
 
-                            <div className="relative z-10 space-y-2 mb-6 p-4 border border-black">
+                            <div className="z-10 space-y-2 mb-6 p-4 border border-black border-dashed">
 
                                 <div className="flex justify-between items-center mb-2 pb-2">
 
@@ -547,42 +543,7 @@ function TreeModuleView({
     return (
         <div className="flex flex-col gap-8 relative">
 
-            <div className="w-full border-2 border-black p-8 relative min-h-[600px] flex items-center justify-center">
-
-                <div className="absolute top-4 left-4 flex items-center justify-center w-full gap-2 z-20">
-
-                    <button
-                        onClick={() => setCurrentPage(p => Math.max(pageNumbers[0], p - 1))}
-                        disabled={currentPage === pageNumbers[0]}
-                        className="w-8 h-8 border border-black flex items-center justify-center not-disabled:hover:bg-black/10 disabled:opacity-20 transition-all not-disabled:cursor-pointer bg-white"
-                    >
-                        <ChevronLeft className="w-4 h-4" />
-                    </button>
-
-                    <div className="flex items-center gap-1.5 px-2">
-                        {pageNumbers.map(pageNum => (
-                            <button
-                                key={pageNum}
-                                onClick={() => setCurrentPage(pageNum)}
-                                className={`w-8 h-8 flex items-center justify-center text-xs font-black transition-all ${pageNum === currentPage
-                                    ? 'bg-amber-400 text-black border border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] -translate-y-0.5 pointer-events-none'
-                                    : 'bg-black/5 text-black/50 border border-transparent hover:bg-black/10 cursor-pointer'
-                                    }`}
-                            >
-                                {pageNum}
-                            </button>
-                        ))}
-                    </div>
-
-                    <button
-                        onClick={() => setCurrentPage(p => Math.min(pageNumbers[pageNumbers.length - 1], p + 1))}
-                        disabled={currentPage === pageNumbers[pageNumbers.length - 1]}
-                        className="w-8 h-8 border border-black flex items-center justify-center not-disabled:hover:bg-black/10 disabled:opacity-20 transition-all not-disabled:cursor-pointer bg-white"
-                    >
-                        <ChevronRight className="w-4 h-4" />
-                    </button>
-
-                </div>
+            <div className="w-full border-2 border-black p-8 relative flex items-center justify-center">
 
                 <div
                     className="relative shrink-0 pointer-events-auto"
@@ -636,18 +597,12 @@ function TreeModuleView({
                                 onClick={() => handleNodeClick(logicId)}
                             >
 
-                                <div className={`w-full h-full flex items-center justify-center ${isSelected ? `scale-125 border-2` : ''}`}>
+                                <div className={`w-full h-full flex items-center justify-center ${isSelected ? `border-2` : ''}`}>
 
                                     <img
                                         src={`https://cdn.wynncraft.com/nextgen/abilities/2.1/nodes/${iconName}_active.png`}
-                                        className="w-8 h-8 object-contain"
+                                        className="w-10 h-10 object-contain"
                                     />
-
-                                    {treeLogic && treeLogic.locks && treeLogic.locks.length > 0 && (
-                                        <div className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full border-2 border-[#111] flex items-center justify-center">
-                                            <span className="block w-1.5 h-0.5 bg-black shrink-0"></span>
-                                        </div>
-                                    )}
 
                                 </div>
 
@@ -666,9 +621,7 @@ function TreeModuleView({
 
                                                     <img
                                                         src={`https://cdn.wynncraft.com/nextgen/abilities/2.1/nodes/${iconName}_active.png`}
-                                                        alt=""
                                                         className="w-6 h-6 object-contain"
-                                                        onError={(e) => { (e.target as HTMLImageElement).src = 'https://cdn.wynncraft.com/nextgen/abilities/2.1/nodes/abilityTree.nodeWhite_active.png'; }}
                                                     />
 
                                                 </div>
@@ -779,6 +732,41 @@ function TreeModuleView({
                     })}
 
                 </div>
+
+            </div>
+
+            <div className="flex items-center justify-center w-full gap-2 z-20">
+
+                <button
+                    onClick={() => setCurrentPage(p => Math.max(pageNumbers[0], p - 1))}
+                    disabled={currentPage === pageNumbers[0]}
+                    className="w-8 h-8 border border-black flex items-center justify-center not-disabled:hover:bg-black/10 disabled:opacity-20 transition-all not-disabled:cursor-pointer bg-white"
+                >
+                    <ChevronLeft className="w-4 h-4" />
+                </button>
+
+                <div className="flex items-center gap-1.5 px-2">
+                    {pageNumbers.map(pageNum => (
+                        <button
+                            key={pageNum}
+                            onClick={() => setCurrentPage(pageNum)}
+                            className={`w-8 h-8 flex items-center justify-center text-xs font-black transition-all ${pageNum === currentPage
+                                ? 'bg-amber-400 text-black border border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] -translate-y-0.5 pointer-events-none'
+                                : 'bg-black/5 text-black/50 border border-transparent hover:bg-black/10 cursor-pointer'
+                                }`}
+                        >
+                            {pageNum}
+                        </button>
+                    ))}
+                </div>
+
+                <button
+                    onClick={() => setCurrentPage(p => Math.min(pageNumbers[pageNumbers.length - 1], p + 1))}
+                    disabled={currentPage === pageNumbers[pageNumbers.length - 1]}
+                    className="w-8 h-8 border border-black flex items-center justify-center not-disabled:hover:bg-black/10 disabled:opacity-20 transition-all not-disabled:cursor-pointer bg-white"
+                >
+                    <ChevronRight className="w-4 h-4" />
+                </button>
 
             </div>
 
