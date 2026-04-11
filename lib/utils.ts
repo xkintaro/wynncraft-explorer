@@ -1,4 +1,4 @@
-import { CLASS_CONFIG, NODE_STYLES, type ClassConfigItem, type NodeStyleItem } from './constants';
+import { CLASS_CONFIG, NODE_STYLES, ARCHETYPE_STYLES, type ClassConfigItem, type NodeStyleItem } from './constants';
 import { Swords, Flame, Sparkles, Shield, Star, Zap, type LucideIcon } from 'lucide-react';
 
 /**
@@ -79,26 +79,26 @@ export function getNodeIcon(style: NodeStyleItem): LucideIcon {
 }
 
 /**
+ * Archetype adına göre tüm stil nesnesini döndürür.
+ */
+export function getArchetypeStyle(name: string): { text: string; bg: string; border: string } {
+    if (!name) return ARCHETYPE_STYLES.default;
+    const lower = name.toLowerCase();
+
+    for (const [key, style] of Object.entries(ARCHETYPE_STYLES)) {
+        if (key !== 'default' && lower.includes(key)) {
+            return style;
+        }
+    }
+
+    return ARCHETYPE_STYLES.default;
+}
+
+/**
  * Archetype adına göre Tailwind text renk sınıfı döndürür.
  */
 export function getArchetypeHeaderColor(name: string): string {
-    if (!name) return 'text-black/60';
-    const lower = name.toLowerCase();
-    if (lower.includes('fallen') || lower.includes('berserker')) return 'text-orange-400';
-    if (lower.includes('battle monk') || lower.includes('monk') || lower.includes('trickster')) return 'text-yellow-300';
-    if (lower.includes('paladin') || lower.includes('tank')) return 'text-cyan-400';
-    if (lower.includes('boltslinger')) return 'text-amber-400';
-    if (lower.includes('sharpshooter')) return 'text-pink-400';
-    if (lower.includes('trapper')) return 'text-green-400';
-    if (lower.includes('acrobat')) return 'text-purple-400';
-    if (lower.includes('shadestepper')) return 'text-slate-300';
-    if (lower.includes('riftwalker')) return 'text-violet-400';
-    if (lower.includes('lightbender') || lower.includes('light bender')) return 'text-orange-400';
-    if (lower.includes('arcanist')) return 'text-blue-400';
-    if (lower.includes('ritualist')) return 'text-emerald-400';
-    if (lower.includes('summoner')) return 'text-teal-400';
-    if (lower.includes('acolyte')) return 'text-rose-400';
-    return 'text-black/60';
+    return getArchetypeStyle(name).text;
 }
 
 /**

@@ -284,6 +284,28 @@ export const NODE_STYLES: Record<string, NodeStyleItem> = {
     },
 };
 
+export const ARCHETYPE_STYLES: Record<string, { text: string; bg: string; border: string }> = {
+    fallen: { text: 'text-orange-400', bg: 'bg-orange-400', border: 'border-orange-400' },
+    berserker: { text: 'text-orange-400', bg: 'bg-orange-400', border: 'border-orange-400' },
+    'battle monk': { text: 'text-yellow-300', bg: 'bg-yellow-300', border: 'border-yellow-300' },
+    monk: { text: 'text-yellow-300', bg: 'bg-yellow-300', border: 'border-yellow-300' },
+    trickster: { text: 'text-yellow-300', bg: 'bg-yellow-300', border: 'border-yellow-300' },
+    paladin: { text: 'text-cyan-400', bg: 'bg-cyan-400', border: 'border-cyan-400' },
+    tank: { text: 'text-cyan-400', bg: 'bg-cyan-400', border: 'border-cyan-400' },
+    boltslinger: { text: 'text-amber-400', bg: 'bg-amber-400', border: 'border-amber-400' },
+    sharpshooter: { text: 'text-pink-400', bg: 'bg-pink-400', border: 'border-pink-400' },
+    trapper: { text: 'text-green-400', bg: 'bg-green-400', border: 'border-green-400' },
+    acrobat: { text: 'text-purple-400', bg: 'bg-purple-400', border: 'border-purple-400' },
+    shadestepper: { text: 'text-slate-300', bg: 'bg-slate-300', border: 'border-slate-300' },
+    riftwalker: { text: 'text-violet-400', bg: 'bg-violet-400', border: 'border-violet-400' },
+    lightbender: { text: 'text-orange-400', bg: 'bg-orange-400', border: 'border-orange-400' },
+    arcanist: { text: 'text-blue-400', bg: 'bg-blue-400', border: 'border-blue-400' },
+    ritualist: { text: 'text-emerald-400', bg: 'bg-emerald-400', border: 'border-emerald-400' },
+    summoner: { text: 'text-teal-400', bg: 'bg-teal-400', border: 'border-teal-400' },
+    acolyte: { text: 'text-rose-400', bg: 'bg-rose-400', border: 'border-rose-400' },
+    default: { text: 'text-black/60', bg: 'bg-black/10', border: 'border-black/20' }
+};
+
 const S = 40;
 const M = S / 2;
 

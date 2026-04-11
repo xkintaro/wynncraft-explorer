@@ -12,7 +12,7 @@ import { ClassService } from '@/api/classService';
 
 import { RARITY_COLORS, CLASS_CONFIG } from '@/lib/constants';
 
-import { stripHtml, stripColorCodes, getNodeColorTw, getArchetypeHeaderColor } from '@/lib/utils';
+import { stripHtml, stripColorCodes, getNodeColorTw, getArchetypeStyle } from '@/lib/utils';
 
 import ConnectorSvg from '@/components/ConnectorSvg';
 
@@ -121,37 +121,49 @@ export default function ClassUnifiedPage({ params }: { params: Promise<{ classNa
 
             </header>
 
-            <p className="mb-10">
+            <p className="text-xl font-medium text-black/50 italic leading-relaxed max-w-4xl mb-12">
                 {classData.lore}
             </p>
 
 
+            <div className="flex flex-col gap-4 mb-12">
 
-            <div className="flex my-8">
+                <div className="flex flex-wrap items-center gap-4">
 
-                <button
-                    onClick={() => setActiveTab('archetypes')}
-                    className={`flex items-center gap-2 px-6 py-2 text-xs font-black uppercase tracking-widest transition-all 
-                                ${activeTab === 'archetypes' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'border border-black'}`}
-                >
-                    archetypes
-                </button>
+                    <button
+                        onClick={() => setActiveTab('archetypes')}
+                        className={`flex items-center gap-3 px-8 py-3 text-xs font-black uppercase tracking-[0.2em] transition-all cursor-pointer
+                                    ${activeTab === 'archetypes'
+                                ? 'bg-emerald-400 text-black border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-y-1 -translate-x-1'
+                                : 'bg-white text-black/50 border-2 border-black/5 hover:border-black hover:text-black'}`}
+                    >
+                        <Sparkles className={`w-4 h-4 ${activeTab === 'archetypes' ? 'text-black' : 'text-emerald-500/40'}`} />
+                        archetypes
+                    </button>
 
-                <button
-                    onClick={() => setActiveTab('tree')}
-                    className={`flex items-center gap-2 px-6 py-2 text-xs font-black uppercase tracking-widest transition-all 
-                                ${activeTab === 'tree' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'border border-black'}`}
-                >
-                    Tree
-                </button>
+                    <button
+                        onClick={() => setActiveTab('tree')}
+                        className={`flex items-center gap-3 px-8 py-3 text-xs font-black uppercase tracking-[0.2em] transition-all cursor-pointer
+                                    ${activeTab === 'tree'
+                                ? 'bg-amber-400 text-black border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-y-1 -translate-x-1'
+                                : 'bg-white text-black/50 border-2 border-black/5 hover:border-black hover:text-black'}`}
+                    >
+                        <Book className={`w-4 h-4 ${activeTab === 'tree' ? 'text-black' : 'text-amber-500/40'}`} />
+                        Ability Tree
+                    </button>
 
-                <button
-                    onClick={() => setActiveTab('aspects')}
-                    className={`flex items-center gap-2 px-6 py-2 text-xs font-black uppercase tracking-widest transition-all 
-                                ${activeTab === 'aspects' ? 'bg-violet-500/20 text-violet-400 border border-violet-500/30' : 'border border-black'}`}
-                >
-                    Aspects
-                </button>
+                    <button
+                        onClick={() => setActiveTab('aspects')}
+                        className={`flex items-center gap-3 px-8 py-3 text-xs font-black uppercase tracking-[0.2em] transition-all cursor-pointer
+                                    ${activeTab === 'aspects'
+                                ? 'bg-violet-400 text-black border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-y-1 -translate-x-1'
+                                : 'bg-white text-black/50 border-2 border-black/5 hover:border-black hover:text-black'}`}
+                    >
+                        <Shield className={`w-4 h-4 ${activeTab === 'aspects' ? 'text-black' : 'text-violet-500/40'}`} />
+                        Aspects
+                    </button>
+
+                </div>
 
             </div>
 
@@ -304,30 +316,25 @@ function AspectsModuleView({ aspects }: { aspects: Record<string, AspectData> })
 }
 
 function StatBarLine({ value, max, label }: { value: number; max: number; label: string }) {
-
     return (
-
-        <div className="flex items-center gap-3">
-
-            <span className="text-xs uppercase tracking-widest text-black/50 w-16 shrink-0 font-bold">
+        <div className="flex items-center gap-4">
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-black/40 w-16 shrink-0">
                 {label}
             </span>
-
-            <div className="flex-1 flex gap-1">
-
+            <div className="flex-1 flex gap-1.5">
                 {[...Array(max)].map((_, i) => (
-
                     <div
                         key={i}
-                        className={`h-1.5 flex-1 border border-black/50 ${i < value ? 'bg-amber-400' : 'bg-black/10'}`}
-                    />
-
+                        className={`h-2 flex-1 border border-black/20 relative overflow-hidden transition-all duration-500
+                            ${i < value ? 'bg-amber-400 shadow-[inset_0px_1px_1px_rgba(255,255,255,0.4)]' : 'bg-black/5'}`}
+                    >
+                        {i < value && (
+                            <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/30 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
+                        )}
+                    </div>
                 ))}
-
             </div>
-
         </div>
-
     );
 }
 
@@ -335,19 +342,15 @@ function ArchetypesModuleView({ archetypes, classArchetypes }: { archetypes: Rec
 
     const archEntries = Object.entries(archetypes || {});
 
-    if (archEntries.length === 0) {
-        return <div>There are no Archetypes for this class yet.</div>;
-    }
-
     return (
 
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
 
             {archEntries.map(([key, arch]) => {
 
                 const cleanName = stripHtml(arch.name);
                 const cleanDesc = stripHtml(arch.description);
-                const headerColor = getArchetypeHeaderColor(cleanName);
+                const archStyle = getArchetypeStyle(cleanName);
 
                 const classArchKey = Object.keys(classArchetypes || {}).find(k => {
                     const cleanClassApiName = stripColorCodes(classArchetypes[k].name).toLowerCase().trim();
@@ -359,34 +362,31 @@ function ArchetypesModuleView({ archetypes, classArchetypes }: { archetypes: Rec
 
                 return (
 
-                    <div key={key} className="border border-black p-8 relative flex flex-col">
+                    <div key={key} className="group relative bg-white border-4 border-black p-6 2xl:p-8 flex flex-col transition-all hover:shadow-retro-lg hover:-translate-x-1 hover:-translate-y-1">
 
-                        <div className="flex items-start justify-between mb-6 relative z-10">
+                        <div className={`absolute top-0 left-0 w-full h-2 ${archStyle.bg} border-b-4 border-black`} />
 
-                            <div className="flex items-center gap-5">
+                        <div className="flex items-center gap-6 mb-8 mt-4 relative z-10">
 
-                                <div className="w-16 h-16 border border-black flex items-center justify-center shrink-0">
+                            <div className="size-18 border-4 border-black bg-white flex items-center justify-center shrink-0 shadow-retro-sm transition-transform group-hover:rotate-3">
 
-                                    <img
-                                        src={`https://cdn.wynncraft.com/nextgen/abilities/2.1/archetype/${arch.icon?.name || arch.icon?.value?.name || ''}_active.png`}
-                                        alt={cleanName}
-                                        className="w-12 h-12 object-contain"
-                                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                                    />
+                                <img
+                                    src={`https://cdn.wynncraft.com/nextgen/abilities/2.1/archetype/${arch.icon?.name || arch.icon?.value?.name || ''}_active.png`}
+                                    alt={cleanName}
+                                    className="size-12 object-contain"
+                                />
 
-                                </div>
+                            </div>
 
-                                <div>
+                            <div className="flex-1">
 
-                                    <h3 className={`text-3xl font-jersey uppercase tracking-wider leading-none ${headerColor}`}>
-                                        {cleanName}
-                                    </h3>
+                                <h3 className={`text-2xl font-jersey uppercase tracking-wider leading-none mb-1 ${archStyle.text}`}>
+                                    {cleanName}
+                                </h3>
 
-                                    <p className="text-xs">
-                                        {stripHtml(arch.shortDescription)}
-                                    </p>
-
-                                </div>
+                                <p className="text-xs font-bold uppercase tracking-widest text-black/50">
+                                    {stripHtml(arch.shortDescription)}
+                                </p>
 
                             </div>
 
@@ -394,9 +394,13 @@ function ArchetypesModuleView({ archetypes, classArchetypes }: { archetypes: Rec
 
                         {detailedStats && (
 
-                            <div className="z-10 space-y-2 mb-6 p-4 border border-black border-dashed">
+                            <div className="z-10 mb-8 p-6 border-2 border-black relative overflow-hidden">
 
-                                <div className="flex justify-between items-center mb-2 pb-2">
+                                <div className={`absolute top-0 left-0 w-1 h-full ${archStyle.bg}`} />
+
+                                <div className="flex justify-between items-center mb-5 pb-3 border-b border-black/10">
+
+                                    <div className={`w-2 h-2 rounded-full ${archStyle.bg} animate-pulse`} />
 
                                     <div className="flex items-center gap-1">
 
@@ -405,33 +409,31 @@ function ArchetypesModuleView({ archetypes, classArchetypes }: { archetypes: Rec
                                         ))}
 
                                         {[...Array(Math.max(0, (detailedStats.max || 3) - (detailedStats.difficulty || 0)))].map((_, i) => (
-                                            <Star key={`d-empty-${i}`} className="w-3 h-3 text-black" />
+                                            <Star key={`d-empty-${i}`} className="w-3 h-3 text-black/10" />
                                         ))}
 
                                     </div>
 
                                 </div>
 
-                                <StatBarLine value={detailedStats.damage} max={3} label="Damage" />
-                                <StatBarLine value={detailedStats.defence} max={3} label="Defence" />
-                                <StatBarLine value={detailedStats.range} max={3} label="Range" />
-                                <StatBarLine value={detailedStats.speed} max={3} label="Speed" />
+                                <div className="space-y-3.5">
+                                    <StatBarLine value={detailedStats.damage} max={3} label="Damage" />
+                                    <StatBarLine value={detailedStats.defence} max={3} label="Defence" />
+                                    <StatBarLine value={detailedStats.range} max={3} label="Range" />
+                                    <StatBarLine value={detailedStats.speed} max={3} label="Speed" />
+                                </div>
 
                             </div>
 
                         )}
 
-                        <div className="text-black/50 text-xs leading-relaxed font-medium space-y-2">
+                        {cleanDesc.split('\n').filter(Boolean).map((desc, i) => (
 
-                            {cleanDesc.split('\n').filter(Boolean).map((desc, i) => (
+                            <p key={i} className="text-xs leading-relaxed font-semibold text-black/50 italic">
+                                {desc}
+                            </p>
 
-                                <p key={i}>
-                                    {desc}
-                                </p>
-
-                            ))}
-
-                        </div>
+                        ))}
 
                     </div>
 
