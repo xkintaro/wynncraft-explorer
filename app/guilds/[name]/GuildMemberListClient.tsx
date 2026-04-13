@@ -1,8 +1,10 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+
 import Link from 'next/link';
-import { Search, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
+
+import { Search, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Member {
     name: string;
@@ -14,27 +16,38 @@ interface Member {
 }
 
 export default function GuildMemberListClient({ members, totalCount }: { members: Member[], totalCount: number }) {
+
     const [search, setSearch] = useState('');
+
     const [currentPage, setCurrentPage] = useState(1);
+
     const pageSize = 15;
 
     const filteredMembers = useMemo(() => {
+
         if (!search) return members;
+
         const s = search.toLowerCase();
+
         return members.filter(m =>
             m.name.toLowerCase().includes(s) ||
             m.rank.toLowerCase().includes(s)
         );
+
     }, [members, search]);
 
     const paginatedMembers = useMemo(() => {
+
         const start = (currentPage - 1) * pageSize;
+
         return filteredMembers.slice(start, start + pageSize);
+
     }, [filteredMembers, currentPage]);
 
     const totalPages = Math.ceil(filteredMembers.length / pageSize);
 
     return (
+
         <div className="flex flex-col gap-6">
 
             <header className="flex flex-col md:flex-row items-center justify-between gap-4">
@@ -167,11 +180,15 @@ export default function GuildMemberListClient({ members, totalCount }: { members
                                     onClick={() => setCurrentPage(p => p - 1)}
                                     className="guild-pagination-btn"
                                 >
+
                                     <ChevronLeft />
+
                                 </button>
 
                                 <div className="guild-pagination-info">
+
                                     Page {currentPage} <span className="text-black/20">/</span> {totalPages}
+
                                 </div>
 
                                 <button
@@ -179,7 +196,9 @@ export default function GuildMemberListClient({ members, totalCount }: { members
                                     onClick={() => setCurrentPage(p => p + 1)}
                                     className="guild-pagination-btn"
                                 >
+
                                     <ChevronRight />
+
                                 </button>
 
                             </div>
@@ -190,7 +209,7 @@ export default function GuildMemberListClient({ members, totalCount }: { members
                 )
             }
 
-        </div >
+        </div>
 
     );
 

@@ -45,8 +45,8 @@
 @layer components {
   .global-container {
     @apply max-w-6xl mx-auto;
-    @apply px-2 sm:px-4 lg:px-8;
-    @apply py-4 sm:py-8 lg:py-12;
+    @apply px-4 sm:px-6 lg:px-8;
+    @apply py-6 sm:py-10 lg:py-12;
     @apply overflow-x-hidden;
   }
 
@@ -175,7 +175,7 @@
     .footer {
       @apply flex flex-col md:flex-row items-stretch md:items-center justify-between;
       @apply gap-6 pt-8;
-      @apply border-t-2 border-black border-dashed;
+      @apply border-t-2 border-black/50 border-dashed;
     }
 
     .comments-icon {
@@ -271,7 +271,6 @@
   .podium-card {
     @apply relative p-8;
     @apply border-4 border-black xl:shadow-retro-lg;
-    @apply transition-transform hover:-translate-y-2;
 
     .rank-badge {
       @apply absolute z-10;
@@ -279,7 +278,7 @@
       @apply flex items-center justify-center;
       @apply text-black font-jersey shadow-retro-sm;
       @apply border-4 border-black bg-white;
-      @apply text-3xl sm:text-5xl;
+      @apply text-3xl sm:text-4xl;
       @apply size-12 sm:size-16;
     }
 

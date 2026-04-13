@@ -86,12 +86,30 @@ export interface RankConfigItem {
 }
 
 export const RANK_CONFIG: Record<string, RankConfigItem> = {
-    OWNER: { bg: 'bg-amber-400', label: 'Leader' },
-    CHIEF: { bg: 'bg-red-500', label: 'Chief' },
-    STRATEGIST: { bg: 'bg-purple-500', label: 'Strategist' },
-    CAPTAIN: { bg: 'bg-blue-500', label: 'Captain' },
-    RECRUITER: { bg: 'bg-green-500', label: 'Recruiter' },
-    RECRUIT: { bg: 'bg-slate-500', label: 'Recruit' },
+    OWNER: {
+        bg: 'bg-amber-400',
+        label: 'Leader'
+    },
+    CHIEF: {
+        bg: 'bg-red-500',
+        label: 'Chief'
+    },
+    STRATEGIST: {
+        bg: 'bg-purple-500',
+        label: 'Strategist'
+    },
+    CAPTAIN: {
+        bg: 'bg-blue-500',
+        label: 'Captain'
+    },
+    RECRUITER: {
+        bg: 'bg-green-500',
+        label: 'Recruiter'
+    },
+    RECRUIT: {
+        bg: 'bg-slate-500',
+        label: 'Recruit'
+    },
 };
 
 export interface RarityColorItem {
@@ -104,19 +122,19 @@ export interface RarityColorItem {
 export const RARITY_COLORS: Record<string, RarityColorItem> = {
     fabled: {
         border: 'border-red-500/40',
-        bg: 'bg-red-500/5',
+        bg: 'bg-red-500',
         text: 'text-red-400',
         badge: 'bg-red-500/10 text-red-400 border border-red-500/10',
     },
     legendary: {
         border: 'border-cyan-500/40',
-        bg: 'bg-cyan-500/5',
+        bg: 'bg-cyan-500',
         text: 'text-cyan-400',
         badge: 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/10',
     },
     mythic: {
         border: 'border-purple-500/40',
-        bg: 'bg-purple-500/5',
+        bg: 'bg-purple-500',
         text: 'text-purple-400',
         badge: 'bg-purple-500/10 text-purple-400 border border-purple-500/10',
     },
@@ -129,11 +147,31 @@ export interface SkillConfigItem {
 }
 
 export const SKILL_CONFIG: Record<string, SkillConfigItem> = {
-    strength: { label: 'Strength', icon: Sword, color: '#ef4444' },
-    dexterity: { label: 'Dexterity', icon: Zap, color: '#22c55e' },
-    intelligence: { label: 'Intelligence', icon: Wand2, color: '#3b82f6' },
-    defense: { label: 'Defense', icon: Shield, color: '#f59e0b' },
-    agility: { label: 'Agility', icon: Target, color: '#a855f7' },
+    strength: {
+        label: 'Strength',
+        icon: Sword,
+        color: '#ef4444'
+    },
+    dexterity: {
+        label: 'Dexterity',
+        icon: Zap,
+        color: '#22c55e'
+    },
+    intelligence: {
+        label: 'Intelligence',
+        icon: Wand2,
+        color: '#3b82f6'
+    },
+    defense: {
+        label: 'Defense',
+        icon: Shield,
+        color: '#f59e0b'
+    },
+    agility: {
+        label: 'Agility',
+        icon: Target,
+        color: '#a855f7'
+    },
 };
 
 export interface NodeStyleItem {
@@ -285,25 +323,101 @@ export const NODE_STYLES: Record<string, NodeStyleItem> = {
 };
 
 export const ARCHETYPE_STYLES: Record<string, { text: string; bg: string; border: string }> = {
-    fallen: { text: 'text-orange-400', bg: 'bg-orange-400', border: 'border-orange-400' },
-    berserker: { text: 'text-orange-400', bg: 'bg-orange-400', border: 'border-orange-400' },
-    'battle monk': { text: 'text-yellow-300', bg: 'bg-yellow-300', border: 'border-yellow-300' },
-    monk: { text: 'text-yellow-300', bg: 'bg-yellow-300', border: 'border-yellow-300' },
-    trickster: { text: 'text-yellow-300', bg: 'bg-yellow-300', border: 'border-yellow-300' },
-    paladin: { text: 'text-cyan-400', bg: 'bg-cyan-400', border: 'border-cyan-400' },
-    tank: { text: 'text-cyan-400', bg: 'bg-cyan-400', border: 'border-cyan-400' },
-    boltslinger: { text: 'text-amber-400', bg: 'bg-amber-400', border: 'border-amber-400' },
-    sharpshooter: { text: 'text-pink-400', bg: 'bg-pink-400', border: 'border-pink-400' },
-    trapper: { text: 'text-green-400', bg: 'bg-green-400', border: 'border-green-400' },
-    acrobat: { text: 'text-purple-400', bg: 'bg-purple-400', border: 'border-purple-400' },
-    shadestepper: { text: 'text-slate-300', bg: 'bg-slate-300', border: 'border-slate-300' },
-    riftwalker: { text: 'text-violet-400', bg: 'bg-violet-400', border: 'border-violet-400' },
-    lightbender: { text: 'text-orange-400', bg: 'bg-orange-400', border: 'border-orange-400' },
-    arcanist: { text: 'text-blue-400', bg: 'bg-blue-400', border: 'border-blue-400' },
-    ritualist: { text: 'text-emerald-400', bg: 'bg-emerald-400', border: 'border-emerald-400' },
-    summoner: { text: 'text-teal-400', bg: 'bg-teal-400', border: 'border-teal-400' },
-    acolyte: { text: 'text-rose-400', bg: 'bg-rose-400', border: 'border-rose-400' },
-    default: { text: 'text-black/60', bg: 'bg-black/10', border: 'border-black/20' }
+    fallen: {
+        text: 'text-orange-400',
+        bg: 'bg-orange-400',
+        border: 'border-orange-400'
+    },
+    berserker: {
+        text: 'text-orange-400',
+        bg: 'bg-orange-400',
+        border: 'border-orange-400'
+    },
+    'battle monk': {
+        text: 'text-yellow-300',
+        bg: 'bg-yellow-300',
+        border: 'border-yellow-300'
+    },
+    monk: {
+        text: 'text-yellow-300',
+        bg: 'bg-yellow-300',
+        border: 'border-yellow-300'
+    },
+    trickster: {
+        text: 'text-fuchsia-500',
+        bg: 'bg-fuchsia-500',
+        border: 'border-fuchsia-500'
+    },
+    paladin: {
+        text: 'text-cyan-400',
+        bg: 'bg-cyan-400',
+        border: 'border-cyan-400'
+    },
+    tank: {
+        text: 'text-cyan-400',
+        bg: 'bg-cyan-400',
+        border: 'border-cyan-400'
+    },
+    boltslinger: {
+        text: 'text-amber-400',
+        bg: 'bg-amber-400',
+        border: 'border-amber-400'
+    },
+    sharpshooter: {
+        text: 'text-pink-400',
+        bg: 'bg-pink-400',
+        border: 'border-pink-400'
+    },
+    trapper: {
+        text: 'text-green-400',
+        bg: 'bg-green-400',
+        border: 'border-green-400'
+    },
+    acrobat: {
+        text: 'text-purple-300',
+        bg: 'bg-purple-300',
+        border: 'border-purple-300'
+    },
+    shadestepper: {
+        text: 'text-orange-600',
+        bg: 'bg-orange-600',
+        border: 'border-orange-600'
+    },
+    riftwalker: {
+        text: 'text-cyan-400',
+        bg: 'bg-cyan-400',
+        border: 'border-cyan-400'
+    },
+    lightbender: {
+        text: 'text-orange-400',
+        bg: 'bg-orange-400',
+        border: 'border-orange-400'
+    },
+    arcanist: {
+        text: 'text-fuchsia-400',
+        bg: 'bg-fuchsia-400',
+        border: 'border-fuchsia-400'
+    },
+    ritualist: {
+        text: 'text-emerald-400',
+        bg: 'bg-emerald-400',
+        border: 'border-emerald-400'
+    },
+    summoner: {
+        text: 'text-amber-500',
+        bg: 'bg-amber-500',
+        border: 'border-amber-500'
+    },
+    acolyte: {
+        text: 'text-orange-600',
+        bg: 'bg-orange-600',
+        border: 'border-orange-600'
+    },
+    default: {
+        text: 'text-black/60',
+        bg: 'bg-black/10',
+        border: 'border-black/20'
+    }
 };
 
 const S = 40;

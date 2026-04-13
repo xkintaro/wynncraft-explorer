@@ -1,4 +1,3 @@
-
 player module
 ------------------------------------
 
@@ -17,13 +16,14 @@ https://api.wynncraft.com/v3/player?identifier=<str:uuid/username>&server=<str/i
 
 
 
+
+
 leaderboards module
 ------------------------------------
 
 https://api.wynncraft.com/v3/leaderboards/types
 
 https://api.wynncraft.com/v3/leaderboards/<str:lb_type>?resultLimit=<int:resultLimit>
-
 
 
 
@@ -61,6 +61,7 @@ https://api.wynncraft.com/v3/item/metadata
 
 
 
+
 ability & aspects module
 ------------------------------------
 
@@ -90,7 +91,6 @@ https://api.wynncraft.com/v3/map/quests
 
 
 classes module
-
 ------------------------------------
 
 https://api.wynncraft.com/v3/classes

@@ -9,190 +9,192 @@ import {
 } from 'lucide-react';
 
 export default async function LeaderboardDetailPage({
+
     params
+
 }: {
+
     params: Promise<{ type: string }>
+
 }) {
+
     const { type } = await params;
 
     const displayName = type.replace(/([A-Z])/g, ' $1').trim().toUpperCase();
 
-    try {
-        const data: any = await LeaderboardService.getLeaderboard(type);
+    const data: any = await LeaderboardService.getLeaderboard(type);
 
-        const rawEntries = data || {};
+    const rawEntries = data || {};
 
-        const entries: any[] = Object.entries(rawEntries)
-            .filter(([key]) => !isNaN(parseInt(key)))
-            .map(([pos, entry]: [string, any]) => ({
-                ...entry,
-                position: parseInt(pos)
-            }))
-            .sort((a, b) => a.position - b.position);
+    const entries: any[] = Object.entries(rawEntries)
+        .filter(([key]) => !isNaN(parseInt(key)))
+        .map(([pos, entry]: [string, any]) => ({
+            ...entry,
+            position: parseInt(pos)
+        }))
+        .sort((a, b) => a.position - b.position);
 
-        const top3 = entries.slice(0, 3);
+    const top3 = entries.slice(0, 3);
 
-        const others = entries.slice(3);
+    const others = entries.slice(3);
 
-        const isGuildType = type.toLowerCase().includes('guild');
+    const isGuildType = type.toLowerCase().includes('guild');
 
-        return (
-            <div className="global-container">
+    return (
 
-                <header className="global-header">
+        <div className="global-container">
 
-                    <Link
-                        href="/leaderboards"
-                        className="global-back-btn"
-                    >
+            <header className="global-header">
 
-                        <ArrowLeft />
+                <Link
+                    href="/leaderboards"
+                    className="global-back-btn"
+                >
 
-                    </Link>
+                    <ArrowLeft />
 
-                    <h1 className="global-title" title={displayName}>
+                </Link>
 
-                        <Trophy className="leaderboard-icon" />
+                <h1 className="global-title" title={displayName}>
 
-                        {displayName}
+                    <Trophy className="leaderboard-icon" />
 
-                    </h1>
+                    {displayName}
 
-                </header >
+                </h1>
 
-                <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-12">
+            </header >
 
-                    {/* Rank 1 */}
-                    {top3[0] && (
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-12">
 
-                        <div className="order-1 xl:order-2 xl:scale-105">
+                {/* Rank 1 */}
+                {top3[0] && (
 
-                            <PodiumCard entry={top3[0]} rank={1} color="bg-amber-100 border-amber-400" type={type} />
+                    <div className="order-1 xl:order-2 xl:scale-105">
 
-                        </div>
+                        <PodiumCard entry={top3[0]} rank={1} color="bg-amber-100 border-amber-400" type={type} />
 
-                    )}
+                    </div>
 
-                    {/* Rank 2 */}
-                    {top3[1] && (
+                )}
 
-                        <div className="order-2 xl:order-1 xl:scale-90">
+                {/* Rank 2 */}
+                {top3[1] && (
 
-                            <PodiumCard entry={top3[1]} rank={2} color="bg-slate-200 border-slate-400" type={type} />
+                    <div className="order-2 xl:order-1 xl:scale-90">
 
-                        </div>
+                        <PodiumCard entry={top3[1]} rank={2} color="bg-slate-200 border-slate-400" type={type} />
 
-                    )}
+                    </div>
 
-                    {/* Rank 3 */}
-                    {top3[2] && (
+                )}
 
-                        <div className="order-3 xl:order-3 xl:scale-90">
+                {/* Rank 3 */}
+                {top3[2] && (
 
-                            <PodiumCard entry={top3[2]} rank={3} color="bg-orange-100 border-orange-400" type={type} />
+                    <div className="order-3 xl:order-3 xl:scale-90">
 
-                        </div>
+                        <PodiumCard entry={top3[2]} rank={3} color="bg-orange-100 border-orange-400" type={type} />
 
-                    )}
+                    </div>
+
+                )}
+
+            </div>
+
+            {others.length > 0 && (
+
+                <div className="global-table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Rank
+                                </th>
+
+                                <th>
+                                    Name
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {others.map((entry, idx) => (
+
+                                <tr key={idx} >
+
+                                    <td>
+                                        #{entry.position}
+                                    </td>
+
+                                    <td>
+
+                                        {isGuildType ? (
+
+                                            <Link href={`/guilds/${encodeURIComponent(entry.name)}`} className="flex items-center gap-3">
+
+                                                <span className="leaderboard-table-name">
+                                                    {entry.name}
+                                                </span>
+
+                                            </Link>
+
+                                        ) : (
+
+                                            <Link href={`/player/${entry.uuid || entry.name}`} className="flex items-center gap-3">
+
+                                                <img
+                                                    src={`https://visage.surgeplay.com/bust/48/${entry.uuid}`}
+                                                    className="table-avatar"
+                                                    alt={entry.name}
+                                                />
+
+                                                <span className="table-username">
+                                                    {entry.name}
+                                                </span>
+
+                                            </Link>
+
+                                        )}
+
+                                    </td>
+
+                                </tr>
+
+                            ))}
+
+                        </tbody>
+
+                    </table>
 
                 </div>
+            )}
 
-                {
-                    others.length > 0 && (
+        </div>
 
-                        <div className="global-table-wrapper">
+    );
 
-                            <table>
-
-                                <thead>
-
-                                    <tr>
-
-                                        <th>
-                                            Rank
-                                        </th>
-
-                                        <th>
-                                            Name
-                                        </th>
-
-                                    </tr>
-
-                                </thead>
-
-                                <tbody>
-
-                                    {others.map((entry, idx) => (
-
-                                        <tr key={idx} >
-
-                                            <td>
-                                                #{entry.position}
-                                            </td>
-
-                                            <td>
-
-                                                {isGuildType ? (
-
-                                                    <Link href={`/guilds/${encodeURIComponent(entry.name)}`} className="flex items-center gap-3">
-
-                                                        <span className="leaderboard-table-name">
-                                                            {entry.name}
-                                                        </span>
-
-                                                    </Link>
-
-                                                ) : (
-
-                                                    <Link href={`/player/${entry.uuid || entry.name}`} className="flex items-center gap-3">
-
-                                                        <img
-                                                            src={`https://visage.surgeplay.com/bust/48/${entry.uuid}`}
-                                                            className="table-avatar"
-                                                            alt={entry.name}
-                                                        />
-
-                                                        <span className="table-username">
-                                                            {entry.name}
-                                                        </span>
-
-                                                    </Link>
-
-                                                )}
-
-                                            </td>
-
-                                        </tr>
-
-                                    ))}
-
-                                </tbody>
-
-                            </table>
-
-                        </div>
-                    )
-                }
-
-            </div >
-        );
-    } catch (error: any) {
-        return (
-            <div>
-                Error
-            </div>
-        );
-    }
 }
 
 function PodiumCard({ entry, rank, color, type }: { entry: any, rank: number, color: string, type: string }) {
 
     const isGuild = type.toLowerCase().includes('guild');
+
     const name = entry.name;
+
     const value = entry.level || entry.score;
+
     const xp = entry.metadata?.xp || entry.xp;
 
     return (
+
         <div className={`${color} podium-card`}>
 
             <div className="rank-badge">

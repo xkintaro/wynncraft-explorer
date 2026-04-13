@@ -1,7 +1,9 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+
 import Link from 'next/link';
+
 import { ArrowLeft, MapPin, Search, ChevronRight, ChevronLeft } from 'lucide-react';
 
 interface TerritoryItem {
@@ -19,23 +21,33 @@ interface TerritoryItem {
 }
 
 export default function TerritoryListClient({ territories }: { territories: TerritoryItem[] }) {
+
     const [search, setSearch] = useState('');
+
     const [currentPage, setCurrentPage] = useState(1);
+
     const pageSize = 21;
 
     const filteredTerritories = useMemo(() => {
+
         if (!search) return territories;
+
         const s = search.toLowerCase();
+
         return territories.filter(t =>
             t.name.toLowerCase().includes(s) ||
             t.guild.name.toLowerCase().includes(s) ||
             t.guild.prefix.toLowerCase().includes(s)
         );
+
     }, [territories, search]);
 
     const paginatedTerritories = useMemo(() => {
+
         const start = (currentPage - 1) * pageSize;
+
         return filteredTerritories.slice(start, start + pageSize);
+
     }, [filteredTerritories, currentPage, pageSize]);
 
     const totalPages = Math.ceil(filteredTerritories.length / pageSize);
@@ -179,11 +191,15 @@ export default function TerritoryListClient({ territories }: { territories: Terr
                                     }}
                                     className="guild-pagination-btn"
                                 >
+
                                     <ChevronLeft />
+
                                 </button>
 
                                 <div className="guild-pagination-info">
+
                                     Page {currentPage} <span>/</span> {totalPages}
+
                                 </div>
 
                                 <button
@@ -194,7 +210,9 @@ export default function TerritoryListClient({ territories }: { territories: Terr
                                     }}
                                     className="guild-pagination-btn"
                                 >
+
                                     <ChevronRight />
+
                                 </button>
 
                             </div>

@@ -17,6 +17,11 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
+export const metadata = {
+  title: "Wynncraft Explorer",
+  description: "A professional and high-aesthetic data portal for Wynncraft.",
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
 
