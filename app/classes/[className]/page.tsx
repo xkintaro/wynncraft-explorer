@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo, use } from 'react';
 
-import { ChevronLeft, ChevronRight, Shield, Book, Star, ArrowLeft, Loader2, Sparkles } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Shield, Book, Star, ArrowLeft, Loader2, Sparkles, X } from 'lucide-react';
 
 import Link from 'next/link';
 
@@ -81,12 +81,21 @@ export default function ClassUnifiedPage({ params }: { params: Promise<{ classNa
     }, [className]);
 
     if (loading) {
+
         return (
+
             <div className="min-h-screen flex items-center justify-center flex-col gap-4 text-amber-500">
+
                 <Loader2 className="w-12 h-12 animate-spin" />
-                <p className="text-xs uppercase tracking-widest font-black">Loading...</p>
+
+                <p className="text-xs uppercase tracking-widest font-black">
+                    Loading...
+                </p>
+
             </div>
+
         );
+
     }
 
     if (error || !treeData || !mapData || !aspectsData || !classData) {
@@ -137,8 +146,11 @@ export default function ClassUnifiedPage({ params }: { params: Promise<{ classNa
                                 ? 'bg-emerald-400 text-black border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-y-1 -translate-x-1'
                                 : 'bg-white text-black/50 border-2 border-black/5 hover:border-black hover:text-black'}`}
                     >
+
                         <Sparkles className={`w-4 h-4 ${activeTab === 'archetypes' ? 'text-black' : 'text-emerald-500/40'}`} />
-                        archetypes
+
+                        Archetypes
+
                     </button>
 
                     <button
@@ -148,8 +160,11 @@ export default function ClassUnifiedPage({ params }: { params: Promise<{ classNa
                                 ? 'bg-amber-400 text-black border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-y-1 -translate-x-1'
                                 : 'bg-white text-black/50 border-2 border-black/5 hover:border-black hover:text-black'}`}
                     >
+
                         <Book className={`w-4 h-4 ${activeTab === 'tree' ? 'text-black' : 'text-amber-500/40'}`} />
+
                         Ability Tree
+
                     </button>
 
                     <button
@@ -159,8 +174,11 @@ export default function ClassUnifiedPage({ params }: { params: Promise<{ classNa
                                 ? 'bg-violet-400 text-black border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-y-1 -translate-x-1'
                                 : 'bg-white text-black/50 border-2 border-black/5 hover:border-black hover:text-black'}`}
                     >
+
                         <Shield className={`w-4 h-4 ${activeTab === 'aspects' ? 'text-black' : 'text-violet-500/40'}`} />
+
                         Aspects
+
                     </button>
 
                 </div>
@@ -195,7 +213,7 @@ export default function ClassUnifiedPage({ params }: { params: Promise<{ classNa
                 )
             }
 
-        </div >
+        </div>
 
     );
 
@@ -205,13 +223,9 @@ function AspectsModuleView({ aspects }: { aspects: Record<string, AspectData> })
 
     const aspectEntries = Object.entries(aspects || {});
 
-    if (aspectEntries.length === 0) {
-        return <div>There are no Aspects for this class yet.</div>;
-    }
-
     return (
 
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 items-start">
 
             {['mythic', 'legendary', 'fabled'].map(rarity => {
 
@@ -221,87 +235,118 @@ function AspectsModuleView({ aspects }: { aspects: Record<string, AspectData> })
 
                 return (
 
-                    <div key={rarity} className="flex flex-col gap-4">
+                    <div key={rarity}>
 
-                        <h4 className={`text-xs font-black uppercase tracking-[0.3em] flex items-center gap-3 ${colors.text} mb-2`}>
 
-                            <div className={`w-2 h-2 rounded-full ${colors.bg} border border-current`} />
+                        <h4 className={`text-2xl font-jersey uppercase tracking-[0.2em] flex items-center text-center justify-center gap-3 mb-6 ${colors.text}`}>
+
+                            <Sparkles className="size-6" />
 
                             {rarity}
 
-                            <span className={`${colors.text} ml-auto`}>
+                            <span className='ml-1'>
                                 ({filtered.length})
                             </span>
 
                         </h4>
 
-                        {filtered.map(([key, aspect]) => {
 
-                            const tierEntries = Object.entries(aspect.tiers || {}).sort(([a], [b]) => Number(a) - Number(b));
+                        <div className="flex flex-col gap-8">
 
-                            return (
+                            {filtered.map(([key, aspect]) => {
 
-                                <div key={key} className={`border-2 ${colors.border} ${colors.bg} p-6 h-fit flex flex-col`}>
+                                const tierEntries = Object.entries(aspect.tiers || {}).sort(([a], [b]) => Number(a) - Number(b));
 
-                                    <div className="mb-5 pb-4 border-b border-black">
+                                return (
 
-                                        <h3 className="text-2xl font-jersey text-black uppercase tracking-wider mb-2 leading-none">
-                                            {aspect.name}
-                                        </h3>
+                                    <div key={key} className="group">
 
-                                        <span className={`text-[8px] px-2 py-0.5 ${colors.badge} uppercase tracking-[0.2em] font-black block w-fit`}>
-                                            {rarity}
-                                        </span>
+                                        <div className="relative bg-white border-4 border-black flex flex-col h-full overflow-hidden lg:shadow-retro-lg lg:hover:shadow-none transition-all hover:translate-x-1 hover:translate-y-1">
 
-                                    </div>
+                                            <div className={`h-2.5 w-full border-b-4    -black ${colors.bg}`} />
 
-                                    <div className="space-y-4 flex-1">
+                                            <div className="p-4 sm:p-6 2xl:p-8">
 
-                                        {tierEntries.map(([tier, tierData]) => (
+                                                <div className="mb-8">
 
-                                            <div key={tier} className="border border-black p-3 flex gap-3">
+                                                    <h3 className="text-4xl font-jersey text-black uppercase tracking-wider mb-2 leading-none group-hover:underline">
+                                                        {aspect.name}
+                                                    </h3>
 
-                                                <div className="shrink-0 text-center w-10">
+                                                    <div className="flex items-center gap-3">
 
-                                                    <span className="text-xs text-black/50 uppercase tracking-widest text-nowrap mb-0.5">
-                                                        Tier {tier}
-                                                    </span>
+                                                        <span className={`text-xs px-2.5 py-1 ${colors.badge} uppercase tracking-widest font-bold border-2`}>
+                                                            {rarity}
+                                                        </span>
 
-                                                    <div className={`text-sm font-black ${colors.text}`}>
-                                                        {tierData.threshold}
+                                                        <div className="h-0.5 flex-1 bg-black/5" />
+
                                                     </div>
 
                                                 </div>
 
-                                                <div className="border-l border-black pl-3">
+                                                <div className="space-y-6">
 
-                                                    {tierData.description.map((line: string, i: number) => {
+                                                    {tierEntries.map(([tier, tierData]) => (
 
-                                                        const cleaned = stripHtml(line);
+                                                        <div key={tier}>
 
-                                                        if (!cleaned) return null;
+                                                            <div className="flex items-center justify-between gap-1 mb-3 border-b-2 border-dashed border-black/20 pb-2">
 
-                                                        return (
-                                                            <p key={i} className="text-xs text-black/50 leading-relaxed font-medium">
-                                                                {cleaned}
-                                                            </p>
-                                                        );
+                                                                <div className={`size-10 border-2 border-black/50 flex items-center justify-center text-sm font-bold bg-white z-10 shrink-0 ${colors.text}`}>
+                                                                    {tier}
+                                                                </div>
 
-                                                    })}
+                                                                <div className="flex gap-2 items-center justify-end">
+
+                                                                    <span className="text-xs font-bold text-black/50 uppercase">
+                                                                        Threshold:
+                                                                    </span>
+
+                                                                    <span className={`text-lg font-jersey ${colors.text}`}>
+                                                                        {tierData.threshold}
+                                                                    </span>
+
+                                                                </div>
+
+
+                                                            </div>
+
+                                                            <div className="bg-black/5 p-4 border-r-4 border-black/10">
+
+                                                                {tierData.description.map((line: string, i: number) => {
+
+                                                                    const cleaned = stripHtml(line);
+
+                                                                    if (!cleaned) return null;
+
+                                                                    return (
+                                                                        <p key={i} className="text-xs text-black/50 leading-relaxed font-bold italic mb-1.5 last:mb-0">
+                                                                            {cleaned}
+                                                                        </p>
+                                                                    );
+
+                                                                })}
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    ))}
 
                                                 </div>
 
                                             </div>
 
-                                        ))}
+                                        </div>
 
                                     </div>
 
-                                </div>
+                                );
 
-                            );
+                            })}
 
-                        })}
+                        </div>
 
                     </div>
 
@@ -316,26 +361,31 @@ function AspectsModuleView({ aspects }: { aspects: Record<string, AspectData> })
 }
 
 function StatBarLine({ value, max, label }: { value: number; max: number; label: string }) {
+
     return (
+
         <div className="flex items-center gap-4">
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-black/40 w-16 shrink-0">
+
+            <span className="text-xs font-bold uppercase tracking-widest text-black/50 w-16 shrink-0">
                 {label}
             </span>
+
             <div className="flex-1 flex gap-1.5">
+
                 {[...Array(max)].map((_, i) => (
+
                     <div
                         key={i}
-                        className={`h-2 flex-1 border border-black/20 relative overflow-hidden transition-all duration-500
-                            ${i < value ? 'bg-amber-400 shadow-[inset_0px_1px_1px_rgba(255,255,255,0.4)]' : 'bg-black/5'}`}
-                    >
-                        {i < value && (
-                            <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/30 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
-                        )}
-                    </div>
+                        className={`h-2 flex-1 border border-black/20 ${i < value ? 'bg-amber-400 shadow-[inset_0px_1px_1px_rgba(255,255,255,0.4)]' : 'bg-black/5'}`}
+                    />
                 ))}
+
             </div>
+
         </div>
+
     );
+
 }
 
 function ArchetypesModuleView({ archetypes, classArchetypes }: { archetypes: Record<string, any>; classArchetypes: Record<string, any> }) {
@@ -400,7 +450,7 @@ function ArchetypesModuleView({ archetypes, classArchetypes }: { archetypes: Rec
 
                                 <div className="flex justify-between items-center mb-5 pb-3 border-b border-black/10">
 
-                                    <div className={`w-2 h-2 rounded-full ${archStyle.bg} animate-pulse`} />
+                                    <div className={`w-2 h-2 rounded-full ${archStyle.bg}`} />
 
                                     <div className="flex items-center gap-1">
 
@@ -543,12 +593,13 @@ function TreeModuleView({
     }, [currentPage, mapData, treeData]);
 
     return (
-        <div className="flex flex-col gap-8 relative">
 
-            <div className="w-full border-2 border-black p-8 relative flex items-center justify-center">
+        <div className="flex flex-col gap-12 relative">
+
+            <div className="w-full border-4 border-black relative bg-white lg:shadow-retro-lg flex items-center justify-center py-16 px-8">
 
                 <div
-                    className="relative shrink-0 pointer-events-auto"
+                    className="relative shrink-0"
                     style={{
                         width: cols * CELL,
                         height: rows * CELL,
@@ -567,7 +618,7 @@ function TreeModuleView({
                                 style={{
                                     left: x + (CELL - 40) / 2,
                                     top: y + (CELL - 40) / 2,
-                                    opacity: 0.2
+                                    opacity: 0.15
                                 }}
                             >
                                 <ConnectorSvg
@@ -592,134 +643,82 @@ function TreeModuleView({
 
                             <div
                                 key={`a-${i}`}
-                                className="absolute flex items-center justify-center cursor-pointer transition-all duration-200 group z-20"
+                                className="absolute flex items-center justify-center cursor-pointer group/node z-20"
                                 style={{ left: x, top: y, width: CELL, height: CELL }}
                                 onMouseEnter={() => setHoveredAbilityId(logicId)}
                                 onMouseLeave={() => setHoveredAbilityId(null)}
                                 onClick={() => handleNodeClick(logicId)}
                             >
 
-                                <div className={`w-full h-full flex items-center justify-center ${isSelected ? `border-2` : ''}`}>
+                                <div className={`relative w-12 h-12 flex items-center justify-center transition-all transform ${isSelected ? 'animate-spin' : ''}`}>
 
                                     <img
                                         src={`https://cdn.wynncraft.com/nextgen/abilities/2.1/nodes/${iconName}_active.png`}
-                                        className="w-10 h-10 object-contain"
+                                        className="w-10 h-10 object-contain relative z-10"
+                                        alt={logicId}
                                     />
 
                                 </div>
 
                                 {treeLogic && (
 
-                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-200 z-50 w-72 bg-white">
+                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 pointer-events-none opacity-0 group-hover/node:opacity-100 transition-all duration-300 z-50 w-[22rem] translate-y-2 group-hover/node:translate-y-0 text-left">
 
-                                        <div className="border border-black shadow-2xl relative overflow-hidden p-5">
+                                        <div className="bg-white border-2 border-black relative overflow-hidden p-6">
 
-                                            <div className={`absolute top-0 left-0 w-full h-1 ${colors.bg} border-b-2 ${colors.border}`} />
+                                            <div className="flex items-start gap-4 mb-5">
 
-
-                                            <div className="flex items-start gap-3 mb-3 relative z-10">
-
-                                                <div className={`w-10 h-10 border-2 ${colors.border} ${colors.bg} flex items-center justify-center shrink-0 shadow-lg`}>
+                                                <div className={`w-14 h-14 border-2 border-black ${colors.bg} flex items-center justify-center shrink-0`}>
 
                                                     <img
                                                         src={`https://cdn.wynncraft.com/nextgen/abilities/2.1/nodes/${iconName}_active.png`}
-                                                        className="w-6 h-6 object-contain"
+                                                        className="w-10 h-10 object-contain"
                                                     />
 
                                                 </div>
 
                                                 <div className="flex-1">
-
-                                                    <h3 className="text-lg font-jersey uppercase tracking-wider leading-tight mb-1">
+                                                    <h3 className="text-2xl font-jersey uppercase tracking-wider leading-none mb-1 text-black">
                                                         {stripHtml(treeLogic.name || logicId)}
                                                     </h3>
-
-                                                    <div className="flex gap-2 text-[8px] uppercase tracking-widest mt-1">
-                                                        <span className="px-1.5 py-0.5 border border-black">Page {currentPage}</span>
+                                                    <div className="flex flex-wrap gap-2 mt-2">
+                                                        <span className="text-[9px] px-2 py-0.5 border-2 border-black font-black uppercase tracking-widest bg-black/5">PAGE {currentPage}</span>
                                                         {treeLogic.slot && (
-                                                            <span className="px-1.5 py-0.5 border border-black">Slot {treeLogic.slot}</span>
+                                                            <span className="text-[9px] px-2 py-0.5 border-2 border-black font-black uppercase tracking-widest bg-amber-400 text-black">SLOT {treeLogic.slot}</span>
                                                         )}
                                                     </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="space-y-4">
+
+                                                <div className="flex items-center gap-4 pt-4 border-t-2 border-black/5 border-dashed">
+
+                                                    <div className="flex-1 flex items-center gap-2">
+
+                                                        <div className={`size-2 rounded-full animate-pulse ${isSelected ? 'bg-emerald-500' : 'bg-black/10'}`} />
+
+                                                        <span className="text-xs font-black uppercase tracking-widest">
+
+                                                            {isSelected ? 'SELECTED' : 'AVAILABLE'}
+
+                                                        </span>
+
+                                                    </div>
+
+                                                    <span className="text-xs font-black uppercase tracking-widest text-black/50">
+                                                        CLICK TO PIN
+                                                    </span>
 
                                                 </div>
 
                                             </div>
 
-                                            {treeLogic.description && (
-                                                <div className="space-y-1 mb-3 border-l-2 border-black pl-3">
-                                                    {treeLogic.description.map((line: string, idx: number) => {
-                                                        if (line === '</br>' || line === '<br>' || line === '<br/>') return <div key={idx} className="h-1" />;
-                                                        const cleaned = stripHtml(line);
-                                                        if (!cleaned) return null;
-                                                        return <p key={idx} className="text-[10px] text-black leading-relaxed font-medium">{cleaned}</p>;
-                                                    })}
-                                                </div>
-                                            )}
-
-                                            {treeLogic.requirements && Object.keys(treeLogic.requirements).length > 0 && (
-
-                                                <div className="border border-black p-2 mb-3">
-                                                    <span className="text-[8px] text-amber-500/80 font-black uppercase tracking-widest block mb-1">Requirements</span>
-                                                    <div className="space-y-1">
-                                                        {Object.entries(treeLogic.requirements).map(([reqKey, val]) => (
-                                                            <div key={reqKey} className="flex justify-between items-center px-2 py-1 text-[9px]">
-                                                                <span className="text-black/40 uppercase tracking-widest">{reqKey.replace(/_/g, ' ')}</span>
-                                                                {reqKey.toLowerCase() === 'node' ? (
-                                                                    <button onClick={(e) => { e.stopPropagation(); handleNavigatePath(String(val)); }} className="text-amber-500 font-black ml-2 text-right hover:text-amber-600 hover:underline cursor-pointer uppercase">
-                                                                        {getAbilityNameById(String(val))}
-                                                                    </button>
-                                                                ) : (
-                                                                    <span className="text-amber-400 font-bold ml-2 text-right">
-                                                                        {typeof val === 'object' && val !== null
-                                                                            ? `${(val as any).name} (x${(val as any).amount})`
-                                                                            : String(val)}
-                                                                    </span>
-                                                                )}
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                </div>
-
-                                            )}
-
-                                            {(treeLogic.links?.filter(Boolean).length > 0 || treeLogic.locks?.filter(Boolean).length > 0) && (
-
-                                                <div className="flex flex-col gap-1 pt-2 border-t border-Requirements
-">
-                                                    {treeLogic.links?.filter(Boolean).length > 0 && (
-                                                        <div>
-                                                            <span className="text-[7px] text-green-400 uppercase tracking-widest mb-1 block font-black">Links</span>
-                                                            <div className="flex flex-wrap gap-1">
-                                                                {treeLogic.links.filter(Boolean).map((l: string) => (
-                                                                    <span key={l} className="text-[8px] px-1.5 py-0.5 bg-green-500/10 border border-green-500/20 text-green-400 font-medium">
-                                                                        {getAbilityNameById(l)}
-                                                                    </span>
-                                                                ))}
-                                                            </div>
-                                                        </div>
-                                                    )}
-
-                                                    {treeLogic.locks?.filter(Boolean).length > 0 && (
-                                                        <div>
-                                                            <span className="text-[7px] text-red-500 uppercase tracking-widest mb-1 block mt-1.5 font-black">Conflicts</span>
-                                                            <div className="flex flex-wrap gap-1">
-                                                                {treeLogic.locks.filter(Boolean).map((l: string) => (
-                                                                    <span key={l} className="text-[8px] px-1.5 py-0.5 bg-red-500/10 border border-red-500/20 text-red-400 font-medium line-through">
-                                                                        {getAbilityNameById(l)}
-                                                                    </span>
-                                                                ))}
-                                                            </div>
-                                                        </div>
-                                                    )}
-                                                </div>
-
-                                            )}
-
                                         </div>
 
-                                        <div className="absolute top-full left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
+                                        <div className="absolute top-full left-1/2 -translate-x-1/2 -translate-y-1/2 z-60">
 
-                                            <div className="w-3 h-3 rotate-45 border-r border-b border-black bg-white" />
+                                            <div className="w-4 h-4 rotate-45 border-r-2 border-b-2 border-black bg-white" />
 
                                         </div>
 
@@ -737,163 +736,327 @@ function TreeModuleView({
 
             </div>
 
-            <div className="flex items-center justify-center w-full gap-2 z-20">
+            <div className="flex items-center justify-center gap-2">
 
                 <button
                     onClick={() => setCurrentPage(p => Math.max(pageNumbers[0], p - 1))}
                     disabled={currentPage === pageNumbers[0]}
-                    className="w-8 h-8 border border-black flex items-center justify-center not-disabled:hover:bg-black/10 disabled:opacity-20 transition-all not-disabled:cursor-pointer bg-white"
+                    className="size-10 border-2 border-black flex items-center justify-center not-disabled:cursor-pointer bg-white not-disabled:transition-all not-disabled:hover:bg-black not-disabled:hover:text-white disabled:opacity-20 not-disabled:active:translate-y-0.5"
                 >
-                    <ChevronLeft className="w-4 h-4" />
+
+                    <ChevronLeft className="size-5" />
+
                 </button>
 
-                <div className="flex items-center gap-1.5 px-2">
+                <div className="flex items-center">
+
                     {pageNumbers.map(pageNum => (
+
                         <button
                             key={pageNum}
                             onClick={() => setCurrentPage(pageNum)}
-                            className={`w-8 h-8 flex items-center justify-center text-xs font-black transition-all ${pageNum === currentPage
-                                ? 'bg-amber-400 text-black border border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] -translate-y-0.5 pointer-events-none'
-                                : 'bg-black/5 text-black/50 border border-transparent hover:bg-black/10 cursor-pointer'
+                            className={`size-8 flex items-center justify-center text-sm font-bold transition-all
+                                        ${pageNum === currentPage
+                                    ? 'bg-black text-white'
+                                    : 'hover:bg-black/10 text-black/40 cursor-pointer'
                                 }`}
                         >
+
                             {pageNum}
+
                         </button>
+
                     ))}
+
                 </div>
 
                 <button
                     onClick={() => setCurrentPage(p => Math.min(pageNumbers[pageNumbers.length - 1], p + 1))}
                     disabled={currentPage === pageNumbers[pageNumbers.length - 1]}
-                    className="w-8 h-8 border border-black flex items-center justify-center not-disabled:hover:bg-black/10 disabled:opacity-20 transition-all not-disabled:cursor-pointer bg-white"
+                    className="size-10 border-2 border-black flex items-center justify-center not-disabled:cursor-pointer bg-white not-disabled:transition-all not-disabled:hover:bg-black not-disabled:hover:text-white disabled:opacity-20 not-disabled:active:translate-y-0.5"
                 >
-                    <ChevronRight className="w-4 h-4" />
+
+                    <ChevronRight className="size-5" />
+
                 </button>
 
             </div>
 
-            {selectedAbilityIds.length > 0 ? (
-                <div className="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                    {selectedAbilityIds.map(selectedId => {
-                        let logic = null;
-                        for (const pageData of Object.values(treeData.pages)) {
-                            if (pageData[selectedId]) {
-                                logic = pageData[selectedId];
-                                break;
-                            }
-                        }
-                        if (!logic) return null;
 
-                        return (
-                            <div key={selectedId} className="border-2 border-black shadow-2xl relative overflow-hidden bg-white h-fit">
-                                <div className={`absolute top-0 left-0 w-full h-1 ${getNodeColorTw(logic.icon?.value?.name || '').bg} border-b-2 ${getNodeColorTw(logic.icon?.value?.name || '').border}`} />
-                                <div className="p-6 relative z-10">
-                                    <div className="flex items-start justify-between mb-5">
-                                        <div className="flex gap-4">
-                                            <div className={`w-12 h-12 border-2 ${getNodeColorTw(logic.icon?.value?.name || '').border} ${getNodeColorTw(logic.icon?.value?.name || '').bg} flex items-center justify-center shrink-0 shadow-lg`}>
-                                                <img
-                                                    src={`https://cdn.wynncraft.com/nextgen/abilities/2.1/nodes/${logic.icon?.value?.name || 'abilityTree.nodeWhite'}_active.png`}
-                                                    alt=""
-                                                    className="w-8 h-8 object-contain"
-                                                    onError={(e) => { (e.target as HTMLImageElement).src = 'https://cdn.wynncraft.com/nextgen/abilities/2.1/nodes/abilityTree.nodeWhite_active.png'; }}
-                                                />
-                                            </div>
-                                            <div>
-                                                <h3 className="text-xl font-jersey text-black uppercase tracking-wider leading-tight mb-1">
-                                                    {stripHtml(logic.name)}
-                                                </h3>
-                                                <div className="flex gap-2 text-[8px] uppercase tracking-widest mt-1">
-                                                    {logic.slot && (
-                                                        <span className="bg-black/10 text-black/60 px-1.5 py-0.5 border border-black/5">Slot {logic.slot}</span>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <button onClick={() => handleNodeClick(selectedId)} className="w-6 h-6 border border-black flex items-center justify-center hover:bg-black/10 transition-colors shrink-0">
-                                            <span className="text-xs font-black">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div className="space-y-1 mb-5 border-l-2 border-black/10 pl-3">
-                                        {logic.description?.map((line: string, i: number) => {
-                                            if (line === '</br>' || line === '<br>' || line === '<br/>') return <div key={i} className="h-2" />;
-                                            const cleaned = stripHtml(line);
-                                            if (!cleaned) return null;
-                                            return <p key={i} className="text-xs text-black/50 leading-relaxed font-medium">{cleaned}</p>;
-                                        })}
-                                    </div>
-                                    {logic.requirements && Object.keys(logic.requirements).length > 0 && (
-                                        <div className="border border-black p-3 mb-4">
-                                            <span className="text-[9px] text-amber-500/80 font-black uppercase tracking-widest block mb-2">Requirements</span>
-                                            <div className="space-y-1">
-                                                {Object.entries(logic.requirements).map(([reqKey, val]) => (
-                                                    <div key={reqKey} className="flex justify-between items-center bg-black/5 px-2 py-1 text-[10px]">
-                                                        <span className="text-black/40 uppercase tracking-widest font-bold">{reqKey.replace(/_/g, ' ')}</span>
-                                                        {reqKey.toLowerCase() === 'node' ? (
-                                                            <button onClick={() => handleNavigatePath(String(val))} className="text-amber-500 font-black ml-4 text-right hover:text-amber-600 hover:underline cursor-pointer uppercase">
-                                                                {getAbilityNameById(String(val))}
-                                                            </button>
-                                                        ) : (
-                                                            <span className="text-amber-500 font-bold ml-4 text-right">
-                                                                {typeof val === 'object' && val !== null ? `${(val as any).name} (x${(val as any).amount})` : String(val)}
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )}
-                                    {(logic.links?.filter(Boolean).length > 0 || logic.locks?.filter(Boolean).length > 0) && (
-                                        <div className="flex flex-col gap-2">
-                                            {logic.links?.filter(Boolean).length > 0 && (
-                                                <div>
-                                                    <span className="text-[8px] text-green-500 uppercase tracking-widest mb-1 block font-black">Links</span>
-                                                    <div className="flex flex-wrap gap-1">
-                                                        {logic.links.filter(Boolean).map((l: string) => (
-                                                            <button key={l} onClick={() => handleNavigatePath(l)} className="text-[9px] px-2 py-0.5 bg-green-500/10 border border-green-500/20 text-green-600 font-black hover:bg-green-500/20 transition-colors uppercase tracking-wider text-left cursor-pointer">
-                                                                {getAbilityNameById(l)}
-                                                            </button>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                            )}
-                                            {logic.locks?.filter(Boolean).length > 0 && (
-                                                <div>
-                                                    <span className="text-[8px] text-red-500 uppercase tracking-widest mb-1 block mt-2 font-black">Conflicts</span>
-                                                    <div className="flex flex-wrap gap-1">
-                                                        {logic.locks.filter(Boolean).map((l: string) => (
-                                                            <button key={l} onClick={() => handleNavigatePath(l)} className="text-[9px] px-2 py-0.5 bg-red-500/10 border border-red-500/20 text-red-600 font-black hover:bg-red-500/20 transition-colors uppercase tracking-wider line-through decoration-red-600/50 text-left cursor-pointer">
-                                                                {getAbilityNameById(l)}
-                                                            </button>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
+            <div className="space-y-8">
+
+                <div className="flex items-center gap-6">
+
+                    <h2 className="text-4xl font-jersey uppercase tracking-wider text-black flex items-center gap-4">
+
+                        Mechanics Compartment
+
+                    </h2>
+
+                    <div className="h-0.5 flex-1 bg-black/5" />
+
+
+                    {selectedAbilityIds.length > 0 && (
+
+                        <div className="flex flex-col gap-2 items-end ">
+
+                            <div className="flex items-baseline gap-2">
+
+                                <span className="text-3xl font-jersey leading-none">
+                                    {selectedAbilityIds.length}
+                                </span>
+
+                                <span className="text-xs font-black uppercase tracking-widest text-black/50">
+                                    Pinned Nodes
+                                </span>
+
                             </div>
-                        );
-                    })}
-                </div>
-            ) : (
-                <div className="w-full border-2 border-dashed border-black flex flex-col items-center justify-center p-12 text-center">
 
-                    <Book className="w-12 h-12 mb-4 opacity-50 text-black" />
+                            <button
+                                onClick={() => setSelectedAbilityIds([])}
+                                className="px-4 py-2 border-2 border-black text-xs font-black uppercase tracking-widest bg-white hover:bg-red-500 hover:text-white transition-all cursor-pointer"
+                            >
+                                Clear All
+                            </button>
 
-                    <p className="text-sm uppercase tracking-widest font-black text-black">
-                        Select abilities
-                    </p>
+                        </div>
 
-                    <p className="text-xs mt-2 text-black/50 font-medium leading-relaxed">
-                        Click on nodes to compare mechanics, requirements, and connections side by side.
-                    </p>
+                    )}
 
                 </div>
-            )}
 
+                {selectedAbilityIds.length > 0 ? (
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                        {selectedAbilityIds.map(selectedId => {
+                            let logic = null;
+                            for (const pageData of Object.values(treeData.pages)) {
+                                if (pageData[selectedId]) {
+                                    logic = pageData[selectedId];
+                                    break;
+                                }
+                            }
+                            if (!logic) return null;
+
+                            const nodeColors = getNodeColorTw(logic.icon?.value?.name || '');
+
+                            return (
+                                <div key={selectedId} className="group relative">
+
+                                    <div className="relative border-4 border-black bg-white flex flex-col h-full">
+
+                                        <div className={`h-2 w-full ${nodeColors.bg} border-b-4 border-black`} />
+
+                                        <div className="p-8">
+
+                                            <div className="flex items-start justify-between mb-8">
+
+                                                <div className="flex gap-6">
+
+                                                    <div className={`size-16 border-4 border-black ${nodeColors.bg} flex items-center justify-center shrink-0 shadow-retro-sm`}>
+
+                                                        <img
+                                                            src={`https://cdn.wynncraft.com/nextgen/abilities/2.1/nodes/${logic.icon?.value?.name || 'abilityTree.nodeWhite'}_active.png`}
+                                                            className="w-10 h-10 object-contain"
+                                                        />
+
+                                                    </div>
+
+                                                    <div>
+
+                                                        <h3 className="text-2xl font-jersey text-black uppercase tracking-wider leading-none mb-2">
+                                                            {stripHtml(logic.name)}
+                                                        </h3>
+
+                                                        <div className="flex gap-2">
+
+                                                            <span className="text-xs font-black uppercase text-black/30 tracking-widest">
+                                                                ID: {selectedId}
+                                                            </span>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <button
+                                                    onClick={() => handleNodeClick(selectedId)}
+                                                    className="size-8 border-2 border-black flex items-center justify-center cursor-pointer hover:text-white transition-all group-hover:bg-red-500 group-hover:text-white group-hover:border-red-600"
+                                                >
+
+                                                    <span className="text-xl font-jersey">
+
+                                                        <X className='size-4' />
+
+                                                    </span>
+
+                                                </button>
+
+                                            </div>
+
+                                            <div className="space-y-3 mb-8 bg-black/2 p-6 border-l-4 border-black/10">
+
+                                                {logic.description?.map((line: string, i: number) => {
+
+                                                    if (line === '</br>' || line === '<br>' || line === '<br/>') return <div key={i} className="h-1" />;
+
+                                                    const cleaned = stripHtml(line);
+
+                                                    if (!cleaned) return null;
+
+                                                    return <p key={i} className="text-xs text-black/60 leading-relaxed font-bold tracking-tight italic">{cleaned}</p>;
+
+                                                })}
+
+                                            </div>
+
+                                            {logic.requirements && Object.keys(logic.requirements).length > 0 && (
+
+                                                <div className="border-2 border-black p-5 mb-8 relative">
+
+                                                    <div className="absolute -top-3 left-4 bg-white px-3 text-xs font-black uppercase tracking-widest border-2 border-black">
+                                                        Requirements
+                                                    </div>
+
+                                                    <div className="space-y-1.5 mt-2">
+
+                                                        {Object.entries(logic.requirements).map(([reqKey, val]) => (
+
+                                                            <div key={reqKey} className="flex justify-between items-center py-2 border-b border-black/5 last:border-0 text-xs">
+
+                                                                <span className="text-black/40 uppercase tracking-widest font-black">
+
+                                                                    {reqKey.replace(/_/g, ' ')}
+
+                                                                </span>
+
+                                                                {reqKey.toLowerCase() === 'node' ? (
+
+                                                                    <button onClick={() => handleNavigatePath(String(val))} className="text-amber-500 font-black hover:underline uppercase tracking-wider">
+
+                                                                        {getAbilityNameById(String(val))}
+
+                                                                    </button>
+
+                                                                ) : (
+
+                                                                    <span className="text-amber-500 font-black uppercase tracking-wider">
+
+                                                                        {typeof val === 'object' && val !== null ? `${(val as any).name} (x${(val as any).amount})` : String(val)}
+
+                                                                    </span>
+
+                                                                )}
+
+                                                            </div>
+
+                                                        ))}
+
+                                                    </div>
+
+                                                </div>
+
+                                            )}
+
+                                            {(logic.links?.filter(Boolean).length > 0 || logic.locks?.filter(Boolean).length > 0) && (
+
+                                                <div className="flex flex-col gap-6">
+
+                                                    {logic.links?.filter(Boolean).length > 0 && (
+
+                                                        <div className="p-5 border-2 border-black bg-emerald-50 relative">
+
+                                                            <div className="absolute -top-3 left-4 bg-white px-3 text-xs font-black uppercase tracking-widest border-2 border-black text-emerald-600">
+                                                                Linked Extensions
+                                                            </div>
+
+                                                            <div className="flex flex-wrap gap-2 mt-2">
+
+                                                                {logic.links.filter(Boolean).map((l: string) => (
+
+                                                                    <button key={l} onClick={() => handleNavigatePath(l)} className="text-xs px-3 py-1.5 bg-white border-2 border-black hover:bg-emerald-500 hover:text-white font-black transition-all uppercase tracking-widest flex items-center gap-2">
+
+                                                                        <div className="size-1.5 rounded-full bg-emerald-500" />
+
+                                                                        {getAbilityNameById(l)}
+
+                                                                    </button>
+
+                                                                ))}
+
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                    {logic.locks?.filter(Boolean).length > 0 && (
+
+                                                        <div className="p-5 border-2 border-black bg-red-50 relative">
+
+                                                            <div className="absolute -top-3 left-4 bg-white px-3 text-xs font-black uppercase tracking-widest border-2 border-black text-red-600">
+                                                                Conflict Warning
+                                                            </div>
+
+                                                            <div className="flex flex-wrap gap-2 mt-2">
+
+                                                                {logic.locks.filter(Boolean).map((l: string) => (
+
+                                                                    <button key={l} onClick={() => handleNavigatePath(l)} className="text-xs px-3 py-1.5 bg-white border-2 border-black hover:bg-red-500 hover:text-white font-black transition-all uppercase tracking-widest">
+
+                                                                        {getAbilityNameById(l)}
+
+                                                                    </button>
+
+                                                                ))}
+
+                                                            </div>
+
+                                                        </div>
+                                                    )}
+
+                                                </div>
+
+                                            )}
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            );
+
+                        })}
+
+                    </div>
+
+                ) : (
+
+                    <div className="w-full border-4 border-dashed border-black/10 flex flex-col items-center justify-center py-24 text-center px-4">
+
+                        <div className="size-20 border-4 border-black border-dashed rounded-full flex items-center justify-center mb-6 opacity-20">
+
+                            <Book className="size-10 text-black" />
+
+                        </div>
+
+                        <h3 className="text-3xl font-jersey uppercase tracking-widest text-black/30 mb-2">
+                            Awaiting Node Selection
+                        </h3>
+
+                        <p className="max-w-md text-xs font-black uppercase tracking-widest text-black/20 leading-loose">
+                            Engage with the ability tree above to inspect intricate mechanics, verify stat requirements, and visualize prerequisite connections in this compartment.
+                        </p>
+
+                    </div>
+
+                )}
+
+            </div>
 
         </div>
 
     );
 
 }
+

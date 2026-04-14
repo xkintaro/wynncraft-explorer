@@ -6,7 +6,6 @@ import Link from 'next/link';
 
 import { ArrowLeft, Shield, Search, ChevronRight, Hash, ChevronLeft } from 'lucide-react';
 
-
 interface GuildListItem {
     name: string;
     uuid: string;
@@ -22,36 +21,48 @@ export default function GuildListClient({ guilds }: { guilds: Record<string, { u
     const pageSize = 20;
 
     const guildEntries = useMemo(() => {
+
         return Object.entries(guilds).map(([name, info]) => ({
             name,
             uuid: info.uuid,
             prefix: info.prefix
         }));
+
     }, [guilds]);
 
     const filteredGuilds = useMemo(() => {
+
         if (!search) return guildEntries;
+
         const s = search.toLowerCase();
+
         return guildEntries.filter(g =>
             g.name.toLowerCase().includes(s) ||
             g.prefix.toLowerCase().includes(s)
         );
+
     }, [guildEntries, search]);
 
     const paginatedGuilds = useMemo(() => {
+
         const start = (currentPage - 1) * pageSize;
+
         return filteredGuilds.slice(start, start + pageSize);
+
     }, [filteredGuilds, currentPage]);
 
     const totalPages = Math.ceil(filteredGuilds.length / pageSize);
 
     return (
+
         <div className="global-container">
 
             <header className="global-header">
 
                 <Link href="/" className="global-back-btn">
+
                     <ArrowLeft />
+
                 </Link>
 
                 <h1 className="global-title">
@@ -138,7 +149,6 @@ export default function GuildListClient({ guilds }: { guilds: Record<string, { u
 
                                     <ChevronRight />
 
-
                                 </Link>
 
                             ) as any)}
@@ -154,7 +164,9 @@ export default function GuildListClient({ guilds }: { guilds: Record<string, { u
                                     onClick={() => setCurrentPage(p => p - 1)}
                                     className="guild-pagination-btn"
                                 >
+
                                     <ChevronLeft />
+
                                 </button>
 
                                 <div className="guild-pagination-info">
@@ -166,7 +178,9 @@ export default function GuildListClient({ guilds }: { guilds: Record<string, { u
                                     onClick={() => setCurrentPage(p => p + 1)}
                                     className="guild-pagination-btn"
                                 >
+
                                     <ChevronRight />
+
                                 </button>
 
                             </div>
@@ -177,8 +191,10 @@ export default function GuildListClient({ guilds }: { guilds: Record<string, { u
 
                 )}
 
-            </div >
+            </div>
 
-        </div >
+        </div>
+
     );
+
 }

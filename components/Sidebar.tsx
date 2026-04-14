@@ -15,6 +15,7 @@ import {
 export default async function Sidebar() {
 
     return (
+
         <aside className="w-64 h-screen sticky top-0 border-r-4 border-black flex flex-col p-6 overflow-y-auto">
 
             <nav className="flex flex-col gap-8">
@@ -22,11 +23,17 @@ export default async function Sidebar() {
                 <section className="space-y-2">
 
                     <SidebarLink href="/" icon={<Home />} label="Home" />
+
                     <SidebarLink href="/player" icon={<Users />} label="Player" />
+
                     <SidebarLink href="/classes" icon={<Shell />} label="Classes" />
+
                     <SidebarLink href="/leaderboards" icon={<Trophy />} label="Leaderboards" />
+
                     <SidebarLink href="/guilds" icon={<Shield />} label="Guilds" />
+
                     <SidebarLink href="/guilds/territories" icon={<Flag />} label="Territories" />
+
                     <SidebarLink href="/news" icon={<Newspaper />} label="News" />
 
                 </section>
@@ -34,11 +41,15 @@ export default async function Sidebar() {
             </nav>
 
         </aside>
+
     );
+
 }
 
 function SidebarLink({ href, icon, label }: { href: string; icon: React.ReactElement; label: string }) {
+
     return (
+
         <Link
             href={href}
             className="group flex items-center gap-3 p-3 border-2 border-transparent hover:border-black transition-all duration-300 relative overflow-hidden"
@@ -53,5 +64,7 @@ function SidebarLink({ href, icon, label }: { href: string; icon: React.ReactEle
             </span>
 
         </Link>
+
     );
+
 }

@@ -21,119 +21,113 @@ interface NewsItem {
 }
 
 export default async function NewsPage() {
-    try {
-        const data = await NewsService.getLatest() as NewsItem[];
 
-        return (
-            <div className="global-container">
+    const data = await NewsService.getLatest() as NewsItem[];
 
-                <header className="global-header">
+    return (
 
-                    <Link
-                        href="/"
-                        className="global-back-btn"
+        <div className="global-container">
+
+            <header className="global-header">
+
+                <Link
+                    href="/"
+                    className="global-back-btn"
+                >
+
+                    <ArrowLeft />
+
+                </Link>
+
+                <h1 className="global-title">
+
+                    <Newspaper />
+
+                    News
+
+                </h1>
+
+            </header>
+
+            <div className="flex flex-col gap-4 sm:gap-6 lg:gap-8">
+
+                {data.map((news, index) => (
+
+                    <article
+                        key={index}
+                        className="news-card"
                     >
 
-                        <ArrowLeft />
+                        <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-4 sm:mb-8">
 
-                    </Link>
+                            <div className="badge-date">
 
-                    <h1 className="global-title">
+                                {index === 0 ? <Flame /> : <FileText />}
 
-                        <Newspaper />
+                                {news.date}
 
-                        News
+                            </div>
 
-                    </h1>
+                            <div className="badge-author">
 
-                </header>
+                                Author: {news.author}
 
-                <div className="flex flex-col gap-4 sm:gap-6 lg:gap-8">
+                            </div>
 
-                    {data.map((news, index) => (
+                        </div>
 
-                        <article
-                            key={index}
-                            className="news-card"
-                        >
+                        <h2 className="title">
+                            {news.title}
+                        </h2>
 
-                            <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-4 sm:mb-8">
+                        <div
+                            className="content"
+                            dangerouslySetInnerHTML={{ __html: news.content }}
+                        />
 
-                                <div className="badge-date">
+                        <div className="footer">
 
-                                    {index === 0 ? <Flame /> : <FileText />}
+                            <div className="flex items-center gap-3">
 
-                                    {news.date}
+                                <div className="comments-icon">
+
+                                    <MessageSquare />
 
                                 </div>
 
-                                <div className="badge-author">
+                                <div>
 
-                                    Author: {news.author}
+                                    <p className="comments-label">
+                                        Comments
+                                    </p>
+
+                                    <p className="comments-count">
+                                        {news.comments}
+                                    </p>
 
                                 </div>
 
                             </div>
 
-                            <h2 className="title">
-                                {news.title}
-                            </h2>
+                            <a
+                                href={news.forumThread}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="btn"
+                            >
+                                Read News
+                                <ArrowRight />
+                            </a>
 
-                            <div
-                                className="content"
-                                dangerouslySetInnerHTML={{ __html: news.content }}
-                            />
+                        </div>
 
-                            <div className="footer">
+                    </article>
 
-                                <div className="flex items-center gap-3">
-
-                                    <div className="comments-icon">
-
-                                        <MessageSquare />
-
-                                    </div>
-
-                                    <div>
-
-                                        <p className="comments-label">
-                                            Comments
-                                        </p>
-
-                                        <p className="comments-count">
-                                            {news.comments}
-                                        </p>
-
-                                    </div>
-
-                                </div>
-
-                                <a
-                                    href={news.forumThread}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="btn"
-                                >
-                                    Read News
-                                    <ArrowRight />
-                                </a>
-
-                            </div>
-
-                        </article>
-
-                    ))}
-
-                </div>
+                ))}
 
             </div>
-        );
-    } catch (error: any) {
-        return (
-            <div>
-                Error
-            </div>
-        );
-    }
+
+        </div>
+    );
+
 }
-

@@ -9,9 +9,11 @@ import {
 } from 'lucide-react';
 
 export default async function LeaderboardsPage() {
+
     const data = await LeaderboardService.getTypes();
 
     return (
+
         <div className="global-container">
 
             <header className="global-header">
@@ -30,6 +32,7 @@ export default async function LeaderboardsPage() {
                     <Trophy className="leaderboard-icon" />
 
                     Leaderboards
+
                 </h1>
 
             </header>
