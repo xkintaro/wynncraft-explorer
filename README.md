@@ -51,8 +51,7 @@ This is the most fundamental module of the project, showing player statistics, p
 - **`player/[uuid]/characters`**: Lists the characters owned by the player (Mage, Archer, Warrior, etc.) with summary data on a single page.
 - **`player/[uuid]/characters/[characterUuid]`**: Covers in-depth and micro-level analysis of a specific character. Lists core combat levels, professions (gathering/crafting levels like Mining, Woodcutting, Crafting), completed dungeon and quest statistics, as well as skill point distributions if available.
 
-<img src="md/20260415095527746.jpg" width="300">
-<img src="md/20260415095527814.jpg" width="300">
+<img src="md/20260415095527746.jpg" width="300"> <img src="md/20260415095527814.jpg" width="300">
 
 ### 🛡️ Guild Module (`app/guilds/`)
 
