@@ -62,12 +62,9 @@ High-interaction guild research sections that bring the massive guild system on 
 - **`guilds/territories/`**: Area used to examine or list the territories captured by guilds.
 - **`guilds/prefix/`**: Sub-route or dynamic route that allows quickly finding a guild by its prefix (e.g., "ANO") rather than its full name.
 
-<img src="md/20260415095527881.jpg" width="300">
-
-##
+<img src="md/20260415095527881.jpg" width="300"> <img src="md/20260415095528005.jpg" width="300">
 
 <img src="md/20260415095527939.jpg" width="300">
-<img src="md/20260415095528005.jpg" width="300">
 
 ### ⚔️ Class and Ability System (`app/classes/`)
 
@@ -76,11 +73,7 @@ Examines Wynncraft's complex character class templates.
 - **`classes/`**: Core information structure listing the main classes available in the game and their handling mechanisms.
 - **`classes/[className]`**: Offers detailed views specific to the selected class (Archer/Hunter, Warrior/Knight, etc.). Template information containing basic abilities and progressions belonging to the classes is displayed.
 
-<img src="md/20260415095528066.jpg" width="300">
-
-##
-
-<img src="md/20260415095528122.jpg" width="300">
+<img src="md/20260415095528066.jpg" width="300"> <img src="md/20260415095528122.jpg" width="300">
 
 ### 🏆 Leaderboards (`app/leaderboards/`)
 
