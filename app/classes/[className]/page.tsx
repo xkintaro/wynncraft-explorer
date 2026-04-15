@@ -593,144 +593,144 @@ function TreeModuleView({
     }, [currentPage, mapData, treeData]);
 
     return (
+        <div className="flex flex-col gap-16 relative">
 
-        <div className="flex flex-col gap-12 relative">
+            <div className="w-full relative border-4 shadow-retro-lg">
 
-            <div className="w-full border-4 border-black relative bg-white lg:shadow-retro-lg flex items-center justify-center py-16 px-8">
+                <div className="relative flex flex-col items-center py-24 px-12 z-20">
 
-                <div
-                    className="relative shrink-0"
-                    style={{
-                        width: cols * CELL,
-                        height: rows * CELL,
-                    }}
-                >
+                    <div
+                        className="relative shrink-0"
+                        style={{
+                            width: cols * CELL,
+                            height: rows * CELL,
+                        }}
+                    >
+                        {gridNodes.filter((n: any) => n.type === 'connector').map((node: any, i: number) => {
 
-                    {gridNodes.filter((n: any) => n.type === 'connector').map((node: any, i: number) => {
-                        const x = (node.coordinates.x - minX) * CELL;
-                        const y = (node.coordinates.y - minY) * CELL;
-                        const cType = typeof node.meta?.icon === 'string' ? node.meta.icon : 'connector_up_down';
+                            const x = (node.coordinates.x - minX) * CELL;
 
-                        return (
-                            <div
-                                key={`c-${i}`}
-                                className="absolute flex items-center justify-center pointer-events-none"
-                                style={{
-                                    left: x + (CELL - 40) / 2,
-                                    top: y + (CELL - 40) / 2,
-                                    opacity: 0.15
-                                }}
-                            >
-                                <ConnectorSvg
-                                    type={cType}
-                                    color="#000000"
-                                />
-                            </div>
-                        );
-                    })}
+                            const y = (node.coordinates.y - minY) * CELL;
 
-                    {gridNodes.filter((n: any) => n.type === 'ability').map((node: any, i: number) => {
-                        const x = (node.coordinates.x - minX) * CELL;
-                        const y = (node.coordinates.y - minY) * CELL;
+                            const cType = typeof node.meta?.icon === 'string' ? node.meta.icon : 'connector_up_down';
 
-                        const logicId = node.logicId;
-                        const treeLogic = node.treeLogic;
-                        const iconName = typeof node.meta.icon === 'object' ? node.meta.icon?.value?.name || '' : '';
-                        const colors = getNodeColorTw(iconName);
-                        const isSelected = selectedAbilityIds.includes(logicId);
+                            return (
+                                <div
+                                    key={`c-${i}`}
+                                    className="absolute flex items-center justify-center pointer-events-none"
+                                    style={{
+                                        left: x + (CELL - 44) / 2,
+                                        top: y + (CELL - 44) / 2,
+                                        opacity: 0.6,
+                                    }}
+                                >
 
-                        return (
+                                    <div className="relative animate-pulse">
 
-                            <div
-                                key={`a-${i}`}
-                                className="absolute flex items-center justify-center cursor-pointer group/node z-20"
-                                style={{ left: x, top: y, width: CELL, height: CELL }}
-                                onMouseEnter={() => setHoveredAbilityId(logicId)}
-                                onMouseLeave={() => setHoveredAbilityId(null)}
-                                onClick={() => handleNodeClick(logicId)}
-                            >
+                                        <ConnectorSvg type={cType} color="oklch(66.6% 0.179 58.318)" />
 
-                                <div className={`relative w-12 h-12 flex items-center justify-center transition-all transform ${isSelected ? 'animate-spin' : ''}`}>
-
-                                    <img
-                                        src={`https://cdn.wynncraft.com/nextgen/abilities/2.1/nodes/${iconName}_active.png`}
-                                        className="w-10 h-10 object-contain relative z-10"
-                                        alt={logicId}
-                                    />
+                                    </div>
 
                                 </div>
 
-                                {treeLogic && (
+                            );
 
-                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 pointer-events-none opacity-0 group-hover/node:opacity-100 transition-all duration-300 z-50 w-[22rem] translate-y-2 group-hover/node:translate-y-0 text-left">
+                        })}
 
-                                        <div className="bg-white border-2 border-black relative overflow-hidden p-6">
+                        {gridNodes.filter((n: any) => n.type === 'ability').map((node: any, i: number) => {
 
-                                            <div className="flex items-start gap-4 mb-5">
+                            const x = (node.coordinates.x - minX) * CELL;
 
-                                                <div className={`w-14 h-14 border-2 border-black ${colors.bg} flex items-center justify-center shrink-0`}>
+                            const y = (node.coordinates.y - minY) * CELL;
 
-                                                    <img
-                                                        src={`https://cdn.wynncraft.com/nextgen/abilities/2.1/nodes/${iconName}_active.png`}
-                                                        className="w-10 h-10 object-contain"
-                                                    />
+                            const logicId = node.logicId;
 
-                                                </div>
+                            const treeLogic = node.treeLogic;
 
-                                                <div className="flex-1">
-                                                    <h3 className="text-2xl font-jersey uppercase tracking-wider leading-none mb-1 text-black">
-                                                        {stripHtml(treeLogic.name || logicId)}
-                                                    </h3>
-                                                    <div className="flex flex-wrap gap-2 mt-2">
-                                                        <span className="text-[9px] px-2 py-0.5 border-2 border-black font-black uppercase tracking-widest bg-black/5">PAGE {currentPage}</span>
-                                                        {treeLogic.slot && (
-                                                            <span className="text-[9px] px-2 py-0.5 border-2 border-black font-black uppercase tracking-widest bg-amber-400 text-black">SLOT {treeLogic.slot}</span>
-                                                        )}
+                            const iconName = typeof node.meta.icon === 'object' ? node.meta.icon?.value?.name || '' : '';
+
+                            const isSelected = selectedAbilityIds.includes(logicId);
+
+                            return (
+                                <div
+                                    key={`a-${i}`}
+                                    className="absolute flex items-center justify-center cursor-pointer group/node z-30"
+                                    style={{ left: x, top: y, width: CELL, height: CELL }}
+                                    onMouseEnter={() => setHoveredAbilityId(logicId)}
+                                    onMouseLeave={() => setHoveredAbilityId(null)}
+                                    onClick={() => handleNodeClick(logicId)}
+                                >
+
+                                    <div className={`
+                                        relative w-12 h-12 flex items-center justify-center transition-all duration-500
+                                          border-4 rounded-xl  
+                                        ${isSelected
+                                            ? 'border-amber-400 scale-115 -rotate-3'
+                                            : 'border-black/20 group-hover/node:scale-110 group-hover/node:-rotate-3'
+                                        }
+                                    `}>
+
+                                        <img
+                                            src={`https://cdn.wynncraft.com/nextgen/abilities/2.1/nodes/${iconName}_active.png`}
+                                            className="w-9 h-9 object-contain relative z-10"
+                                        />
+
+                                    </div>
+
+                                    {treeLogic && (
+
+                                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-6 pointer-events-none opacity-0 group-hover/node:opacity-100 transition-all duration-300 z-50 w-[26rem] translate-y-4 group-hover/node:translate-y-0">
+
+                                            <div className="relative bg-white border-2 border-black p-6 shadow-retro-sm overflow-hidden">
+
+                                                <div className="flex items-start gap-5 mb-6">
+
+                                                    <div className="size-18 border-2 border-black bg-black/5 rounded-xl flex items-center justify-center p-3 shadow-inner relative active:scale-95 transition-transform">
+
+                                                        <img
+                                                            src={`https://cdn.wynncraft.com/nextgen/abilities/2.1/nodes/${iconName}_active.png`}
+                                                            className="w-full h-full object-contain relative z-10"
+                                                        />
+
                                                     </div>
-                                                </div>
-                                            </div>
 
-                                            <div className="space-y-4">
+                                                    <div className="flex-1 pt-2">
 
-                                                <div className="flex items-center gap-4 pt-4 border-t-2 border-black/5 border-dashed">
+                                                        <h3 className="text-3xl font-jersey uppercase tracking-wide leading-none text-black">
+                                                            {stripHtml(treeLogic.name || logicId)}
+                                                        </h3>
 
-                                                    <div className="flex-1 flex items-center gap-2">
-
-                                                        <div className={`size-2 rounded-full animate-pulse ${isSelected ? 'bg-emerald-500' : 'bg-black/10'}`} />
-
-                                                        <span className="text-xs font-black uppercase tracking-widest">
-
-                                                            {isSelected ? 'SELECTED' : 'AVAILABLE'}
-
+                                                        <span className={`text-xs font-bold uppercase tracking-widest ${isSelected ? 'text-emerald-500 underline underline-offset-4' : 'text-black/50'}`}>
+                                                            {isSelected ? 'Pinned' : 'Not Pinned'}
                                                         </span>
 
                                                     </div>
 
-                                                    <span className="text-xs font-black uppercase tracking-widest text-black/50">
-                                                        CLICK TO PIN
+                                                </div>
+
+                                                <div className="mt-4 pt-4 border-t border-black/10 flex items-center justify-center gap-3">
+
+                                                    <span className="text-xs font-bold text-black/50 uppercase tracking-widest">
+                                                        Left Click to Pin
                                                     </span>
 
                                                 </div>
 
                                             </div>
 
-                                        </div>
-
-                                        <div className="absolute top-full left-1/2 -translate-x-1/2 -translate-y-1/2 z-60">
-
-                                            <div className="w-4 h-4 rotate-45 border-r-2 border-b-2 border-black bg-white" />
+                                            <div className="absolute top-full left-1/2 -translate-y-1/2 -translate-x-1/2 size-4 bg-white border-r-2 border-b-2 border-black rotate-45" />
 
                                         </div>
 
-                                    </div>
+                                    )}
 
-                                )}
+                                </div>
 
-                            </div>
+                            );
 
-                        );
+                        })}
 
-                    })}
+                    </div>
 
                 </div>
 
@@ -782,141 +782,114 @@ function TreeModuleView({
 
             </div>
 
+            <div className="relative py-12 px-10 bg-white border-4 border-black shadow-retro-lg min-h-[400px]">
 
-            <div className="space-y-8">
+                <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/old-map.png")` }} />
 
-                <div className="flex items-center gap-6">
+                <div className="absolute top-4 left-4 size-12 border-t-4 border-l-4 border-black" />
+                <div className="absolute top-4 right-4 size-12 border-t-4 border-r-4 border-black" />
+                <div className="absolute bottom-4 left-4 size-12 border-b-4 border-l-4 border-black" />
+                <div className="absolute bottom-4 right-4 size-12 border-b-4 border-r-4 border-black" />
 
-                    <h2 className="text-4xl font-jersey uppercase tracking-wider text-black flex items-center gap-4">
+                <div className="relative z-10">
 
-                        Mechanics Compartment
+                    <div className="flex items-center gap-8 mb-16">
 
-                    </h2>
+                        <div className="p-4 bg-black text-white rounded-lg rotate-2 shadow-lg">
 
-                    <div className="h-0.5 flex-1 bg-black/5" />
-
-
-                    {selectedAbilityIds.length > 0 && (
-
-                        <div className="flex flex-col gap-2 items-end ">
-
-                            <div className="flex items-baseline gap-2">
-
-                                <span className="text-3xl font-jersey leading-none">
-                                    {selectedAbilityIds.length}
-                                </span>
-
-                                <span className="text-xs font-black uppercase tracking-widest text-black/50">
-                                    Pinned Nodes
-                                </span>
-
-                            </div>
-
-                            <button
-                                onClick={() => setSelectedAbilityIds([])}
-                                className="px-4 py-2 border-2 border-black text-xs font-black uppercase tracking-widest bg-white hover:bg-red-500 hover:text-white transition-all cursor-pointer"
-                            >
-                                Clear All
-                            </button>
+                            <h2 className="text-5xl font-jersey uppercase tracking-widest leading-none">
+                                Pins
+                            </h2>
 
                         </div>
 
-                    )}
+                        <div className="h-[2px] flex-1 bg-linear-to-r from-black/30 to-transparent" />
 
-                </div>
+                        {selectedAbilityIds.length > 0 && (
 
-                {selectedAbilityIds.length > 0 ? (
+                            <button
+                                onClick={() => setSelectedAbilityIds([])}
+                                className="px-6 py-3 border-4 border-black cursor-pointer text-xs font-black uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all active:translate-y-1"
+                            >
+                                Clear Pins
+                            </button>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        )}
+                    </div>
 
-                        {selectedAbilityIds.map(selectedId => {
-                            let logic = null;
-                            for (const pageData of Object.values(treeData.pages)) {
-                                if (pageData[selectedId]) {
-                                    logic = pageData[selectedId];
-                                    break;
+                    {selectedAbilityIds.length > 0 ? (
+
+                        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+
+                            {selectedAbilityIds.map(selectedId => {
+                                let logic = null;
+                                for (const pageData of Object.values(treeData.pages)) {
+                                    if (pageData[selectedId]) { logic = pageData[selectedId]; break; }
                                 }
-                            }
-                            if (!logic) return null;
+                                if (!logic) return null;
 
-                            const nodeColors = getNodeColorTw(logic.icon?.value?.name || '');
+                                return (
 
-                            return (
-                                <div key={selectedId} className="group relative">
+                                    <div key={selectedId} className="relative p-10 bg-white border-2 border-black/20 rounded-lg group/card transition-all duration-500 shadow-sm hover:shadow-xl rotate-[-0.5deg] hover:rotate-0">
 
-                                    <div className="relative border-4 border-black bg-white flex flex-col h-full">
+                                        <div className="absolute top-4 right-4 group-hover/card:scale-110 transition-transform">
 
-                                        <div className={`h-2 w-full ${nodeColors.bg} border-b-4 border-black`} />
+                                            <button onClick={() => handleNodeClick(selectedId)} className="cursor-pointer p-2 text-black/20 hover:text-red-700 transition-colors">
+                                                <X className="size-6" />
+                                            </button>
 
-                                        <div className="p-8">
+                                        </div>
 
-                                            <div className="flex items-start justify-between mb-8">
+                                        <div className="flex gap-6 mb-10 items-center">
 
-                                                <div className="flex gap-6">
+                                            <div className="size-24 border-2 border-black bg-black/5 rounded-xl p-3">
 
-                                                    <div className={`size-16 border-4 border-black ${nodeColors.bg} flex items-center justify-center shrink-0 shadow-retro-sm`}>
+                                                <img
+                                                    src={`https://cdn.wynncraft.com/nextgen/abilities/2.1/nodes/${logic.icon?.value?.name || 'abilityTree.nodeWhite'}_active.png`}
+                                                    className="w-full h-full object-contain brightness-125"
+                                                />
 
-                                                        <img
-                                                            src={`https://cdn.wynncraft.com/nextgen/abilities/2.1/nodes/${logic.icon?.value?.name || 'abilityTree.nodeWhite'}_active.png`}
-                                                            className="w-10 h-10 object-contain"
-                                                        />
+                                            </div>
 
-                                                    </div>
+                                            <div>
 
-                                                    <div>
+                                                <h3 className="text-4xl font-jersey text-black uppercase tracking-wide leading-none mb-1">
+                                                    {stripHtml(logic.name)}
+                                                </h3>
 
-                                                        <h3 className="text-2xl font-jersey text-black uppercase tracking-wider leading-none mb-2">
-                                                            {stripHtml(logic.name)}
-                                                        </h3>
+                                                <div className="flex gap-4">
 
-                                                        <div className="flex gap-2">
-
-                                                            <span className="text-xs font-black uppercase text-black/30 tracking-widest">
-                                                                ID: {selectedId}
-                                                            </span>
-
-                                                        </div>
-
-                                                    </div>
+                                                    <span className="text-sm uppercase font-black text-black/50">
+                                                        {selectedId}
+                                                    </span>
 
                                                 </div>
 
-                                                <button
-                                                    onClick={() => handleNodeClick(selectedId)}
-                                                    className="size-8 border-2 border-black flex items-center justify-center cursor-pointer hover:text-white transition-all group-hover:bg-red-500 group-hover:text-white group-hover:border-red-600"
-                                                >
-
-                                                    <span className="text-xl font-jersey">
-
-                                                        <X className='size-4' />
-
-                                                    </span>
-
-                                                </button>
-
                                             </div>
 
-                                            <div className="space-y-3 mb-8 bg-black/2 p-6 border-l-4 border-black/10">
+                                        </div>
 
-                                                {logic.description?.map((line: string, i: number) => {
+                                        <div className="space-y-6 mb-10 font-medium text-black/60 leading-relaxed italic">
 
-                                                    if (line === '</br>' || line === '<br>' || line === '<br/>') return <div key={i} className="h-1" />;
+                                            {logic.description?.map((line: string, i: number) => {
 
-                                                    const cleaned = stripHtml(line);
+                                                const cleaned = stripHtml(line);
 
-                                                    if (!cleaned) return null;
+                                                if (!cleaned || cleaned === '<br/>') return null;
 
-                                                    return <p key={i} className="text-xs text-black/60 leading-relaxed font-bold tracking-tight italic">{cleaned}</p>;
+                                                return <p key={i} className="text-sm border-l-4 border-black/10 pl-4">{cleaned}</p>;
 
-                                                })}
+                                            })}
 
-                                            </div>
+                                        </div>
+
+                                        <div className="space-y-3 pt-10 border-t-2 border-black/10">
 
                                             {logic.requirements && Object.keys(logic.requirements).length > 0 && (
 
-                                                <div className="border-2 border-black p-5 mb-8 relative">
+                                                <div className="border-2 border-black/10 p-5 mb-8 relative">
 
-                                                    <div className="absolute -top-3 left-4 bg-white px-3 text-xs font-black uppercase tracking-widest border-2 border-black">
+                                                    <div className="absolute -top-3 left-4 bg-white px-3 text-xs font-black uppercase tracking-widest border-2 border-black/10">
                                                         Requirements
                                                     </div>
 
@@ -926,7 +899,7 @@ function TreeModuleView({
 
                                                             <div key={reqKey} className="flex justify-between items-center py-2 border-b border-black/5 last:border-0 text-xs">
 
-                                                                <span className="text-black/40 uppercase tracking-widest font-black">
+                                                                <span className="text-black/50 uppercase tracking-widest font-black">
 
                                                                     {reqKey.replace(/_/g, ' ')}
 
@@ -966,9 +939,9 @@ function TreeModuleView({
 
                                                     {logic.links?.filter(Boolean).length > 0 && (
 
-                                                        <div className="p-5 border-2 border-black bg-emerald-50 relative">
+                                                        <div className="p-5 border-2 border-black/10 bg-emerald-50 relative">
 
-                                                            <div className="absolute -top-3 left-4 bg-white px-3 text-xs font-black uppercase tracking-widest border-2 border-black text-emerald-600">
+                                                            <div className="absolute -top-3 left-4 bg-white px-3 text-xs font-black uppercase tracking-widest border-2 border-black/10 text-emerald-600">
                                                                 Linked Extensions
                                                             </div>
 
@@ -976,9 +949,9 @@ function TreeModuleView({
 
                                                                 {logic.links.filter(Boolean).map((l: string) => (
 
-                                                                    <button key={l} onClick={() => handleNavigatePath(l)} className="text-xs px-3 py-1.5 bg-white border-2 border-black hover:bg-emerald-500 hover:text-white font-black transition-all uppercase tracking-widest flex items-center gap-2">
+                                                                    <button key={l} onClick={() => handleNavigatePath(l)} className="cursor-pointer text-xs px-3 py-1.5 bg-white border-2 border-black/10 hover:bg-emerald-500 hover:text-white group font-black transition-all uppercase tracking-widest flex items-center gap-2">
 
-                                                                        <div className="size-1.5 rounded-full bg-emerald-500" />
+                                                                        <div className="size-1.5 rounded-full bg-emerald-500 group-hover:bg-white transition-colors" />
 
                                                                         {getAbilityNameById(l)}
 
@@ -991,9 +964,9 @@ function TreeModuleView({
                                                     )}
                                                     {logic.locks?.filter(Boolean).length > 0 && (
 
-                                                        <div className="p-5 border-2 border-black bg-red-50 relative">
+                                                        <div className="p-5 border-2 border-black/10 bg-red-50 relative">
 
-                                                            <div className="absolute -top-3 left-4 bg-white px-3 text-xs font-black uppercase tracking-widest border-2 border-black text-red-600">
+                                                            <div className="absolute -top-3 left-4 bg-white px-3 text-xs font-black uppercase tracking-widest border-2 border-black/10 text-red-600">
                                                                 Conflict Warning
                                                             </div>
 
@@ -1001,7 +974,7 @@ function TreeModuleView({
 
                                                                 {logic.locks.filter(Boolean).map((l: string) => (
 
-                                                                    <button key={l} onClick={() => handleNavigatePath(l)} className="text-xs px-3 py-1.5 bg-white border-2 border-black hover:bg-red-500 hover:text-white font-black transition-all uppercase tracking-widest">
+                                                                    <button key={l} onClick={() => handleNavigatePath(l)} className="cursor-pointer text-xs px-3 py-1.5 bg-white border-2 border-black/10 hover:bg-red-500 hover:text-white font-black transition-all uppercase tracking-widest">
 
                                                                         {getAbilityNameById(l)}
 
@@ -1022,35 +995,33 @@ function TreeModuleView({
 
                                     </div>
 
-                                </div>
+                                );
 
-                            );
-
-                        })}
-
-                    </div>
-
-                ) : (
-
-                    <div className="w-full border-4 border-dashed border-black/10 flex flex-col items-center justify-center py-24 text-center px-4">
-
-                        <div className="size-20 border-4 border-black border-dashed rounded-full flex items-center justify-center mb-6 opacity-20">
-
-                            <Book className="size-10 text-black" />
+                            })}
 
                         </div>
 
-                        <h3 className="text-3xl font-jersey uppercase tracking-widest text-black/30 mb-2">
-                            Awaiting Node Selection
-                        </h3>
+                    ) : (
 
-                        <p className="max-w-md text-xs font-black uppercase tracking-widest text-black/20 leading-loose">
-                            Engage with the ability tree above to inspect intricate mechanics, verify stat requirements, and visualize prerequisite connections in this compartment.
-                        </p>
+                        <div className="py-32 flex flex-col items-center justify-center text-black/20">
 
-                    </div>
+                            <div className="size-32 border-8 border-black/10 border-double rounded-full flex items-center justify-center mb-8">
+                                <Book className="size-16" />
+                            </div>
 
-                )}
+                            <h3 className="text-5xl font-jersey uppercase tracking-widest mb-4">
+                                The Archives are Silent
+                            </h3>
+
+                            <p className="max-w-md text-center text-xs font-black uppercase tracking-widest leading-loose">
+                                Decipher the Ability Tree above to unveil the ancient secrets of your class and inscribe your path in the dusty pages of history.
+                            </p>
+
+                        </div>
+
+                    )}
+
+                </div>
 
             </div>
 

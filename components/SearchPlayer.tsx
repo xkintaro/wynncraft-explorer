@@ -32,15 +32,15 @@ export default function SearchPlayer() {
 
             <div className="relative border-4 border-black bg-white p-10 space-y-8">
 
-                <div className="flex items-center gap-4">
+                <div className="sm:flex items-center gap-4">
 
-                    <div className="w-12 h-12 border-4 border-black bg-amber-400 flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                    <div className="max-sm:mb-2 w-12 h-12 border-4 border-black shrink-0 bg-amber-400 flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
 
                         <Search className="w-6 h-6 text-black" />
 
                     </div>
 
-                    <h2 className="text-5xl font-jersey uppercase tracking-wide">
+                    <h2 className="text-5xl font-jersey uppercase tracking-wide text-nowrap">
                         Explore Player
                     </h2>
 
