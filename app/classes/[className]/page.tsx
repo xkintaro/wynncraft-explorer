@@ -678,50 +678,82 @@ function TreeModuleView({
                                     </div>
 
                                     {treeLogic && (
-
-                                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-6 pointer-events-none opacity-0 group-hover/node:opacity-100 transition-all duration-300 z-50 w-[26rem] translate-y-4 group-hover/node:translate-y-0">
-
-                                            <div className="relative bg-white border-2 border-black p-6 shadow-retro-sm overflow-hidden">
-
-                                                <div className="flex items-start gap-5 mb-6">
-
-                                                    <div className="size-18 border-2 border-black bg-black/5 rounded-xl flex items-center justify-center p-3 shadow-inner relative active:scale-95 transition-transform">
-
+                                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-6 pointer-events-none opacity-0 group-hover/node:opacity-100 transition-all duration-300 z-50 w-[24rem] translate-y-4 group-hover/node:translate-y-0">
+                                            <div className="relative bg-white border-2 border-black p-5 shadow-retro-md overflow-hidden">
+                                                <div className="flex items-start gap-4 mb-4">
+                                                    <div className="size-14 border-2 border-black bg-black/5 rounded-lg flex items-center justify-center p-2 shadow-inner shrink-0">
                                                         <img
                                                             src={`https://cdn.wynncraft.com/nextgen/abilities/2.1/nodes/${iconName}_active.png`}
                                                             className="w-full h-full object-contain relative z-10"
                                                         />
-
                                                     </div>
-
-                                                    <div className="flex-1 pt-2">
-
-                                                        <h3 className="text-3xl font-jersey uppercase tracking-wide leading-none text-black">
+                                                    <div className="flex-1 pt-1">
+                                                        <h3 className="text-2xl font-jersey uppercase tracking-wide leading-none text-black mb-1">
                                                             {stripHtml(treeLogic.name || logicId)}
                                                         </h3>
-
-                                                        <span className={`text-xs font-bold uppercase tracking-widest ${isSelected ? 'text-emerald-500 underline underline-offset-4' : 'text-black/50'}`}>
-                                                            {isSelected ? 'Pinned' : 'Not Pinned'}
-                                                        </span>
-
+                                                        <div className="flex items-center gap-2">
+                                                            <span className={`text-[10px] font-bold uppercase tracking-widest ${isSelected ? 'text-emerald-500' : 'text-black/30'}`}>
+                                                                {isSelected ? '● Pinned' : '○ Not Pinned'}
+                                                            </span>
+                                                            {treeLogic.requirements?.points && (
+                                                                <span className="text-[10px] font-bold uppercase tracking-widest text-amber-500 bg-amber-50 px-1.5 py-0.5 border border-amber-200">
+                                                                    {treeLogic.requirements.points} Points
+                                                                </span>
+                                                            )}
+                                                        </div>
                                                     </div>
-
                                                 </div>
 
-                                                <div className="mt-4 pt-4 border-t border-black/10 flex items-center justify-center gap-3">
+                                                <div className="mb-4 text-xs leading-relaxed text-black/60 font-semibold italic border-l-2 border-black/5 pl-3 whitespace-pre-wrap">
+                                                    {treeLogic.description?.map((line: string) => stripHtml(line)).filter(Boolean).join('\n')}
+                                                </div>
 
-                                                    <span className="text-xs font-bold text-black/50 uppercase tracking-widest">
-                                                        Left Click to Pin
+                                                {((treeLogic.requirements && Object.keys(treeLogic.requirements).length > 0) || (treeLogic.links && treeLogic.links.length > 0) || (treeLogic.locks && treeLogic.locks.length > 0)) && (
+                                                    <div className="mt-4 pt-4 border-t border-black/5 space-y-3">
+                                                        {treeLogic.requirements && Object.entries(treeLogic.requirements).map(([reqKey, val]) => {
+                                                            if (reqKey === 'points') return null; 
+                                                            return (
+                                                                <div key={reqKey} className="flex justify-between items-center gap-2 text-[10px]">
+                                                                    <span className="text-black/40 uppercase font-black shrink-0">{reqKey.replace(/_/g, ' ')}:</span>
+                                                                    <span className="text-amber-600 font-bold truncate">
+                                                                        {reqKey.toLowerCase() === 'node' 
+                                                                            ? getAbilityNameById(String(val))
+                                                                            : (typeof val === 'object' && val !== null ? `${(val as any).name} (x${(val as any).amount})` : String(val))
+                                                                        }
+                                                                    </span>
+                                                                </div>
+                                                            );
+                                                        })}
+
+                                                        {treeLogic.links && treeLogic.links.length > 0 && (
+                                                            <div className="flex flex-wrap gap-1 pt-1">
+                                                                {treeLogic.links.map((l: string) => (
+                                                                    <span key={l} className="text-[9px] px-1.5 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-100 font-bold uppercase">
+                                                                        + {getAbilityNameById(l)}
+                                                                    </span>
+                                                                ))}
+                                                            </div>
+                                                        )}
+                                                        {treeLogic.locks && treeLogic.locks.length > 0 && (
+                                                            <div className="flex flex-wrap gap-1">
+                                                                {treeLogic.locks.map((l: string) => (
+                                                                    <span key={l} className="text-[9px] px-1.5 py-0.5 bg-red-50 text-red-700 border border-red-100 font-bold uppercase">
+                                                                        × {getAbilityNameById(l)}
+                                                                    </span>
+                                                                ))}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                )}
+
+                                                <div className="mt-4 pt-3 border-t-2 border-dashed border-black/10 flex items-center justify-center">
+                                                    <span className="text-[10px] font-bold text-black/40 uppercase tracking-widest animate-pulse">
+                                                        Click to Toggle Pin
                                                     </span>
-
                                                 </div>
-
                                             </div>
-
-                                            <div className="absolute top-full left-1/2 -translate-y-1/2 -translate-x-1/2 size-4 bg-white border-r-2 border-b-2 border-black rotate-45" />
-
+                                            <div className="absolute top-full left-1/2 -translate-y-1/2 -translate-x-1/2 size-3 bg-white border-r-2 border-b-2 border-black rotate-45" />
                                         </div>
-
                                     )}
 
                                 </div>
@@ -869,18 +901,8 @@ function TreeModuleView({
 
                                         </div>
 
-                                        <div className="space-y-6 mb-10 font-medium text-black/60 leading-relaxed italic">
-
-                                            {logic.description?.map((line: string, i: number) => {
-
-                                                const cleaned = stripHtml(line);
-
-                                                if (!cleaned || cleaned === '<br/>') return null;
-
-                                                return <p key={i} className="text-sm border-l-4 border-black/10 pl-4">{cleaned}</p>;
-
-                                            })}
-
+                                        <div className="mb-10 text-sm font-medium text-black/60 leading-relaxed italic border-l-4 border-black/10 pl-4 whitespace-pre-wrap">
+                                            {logic.description?.map((line: string) => stripHtml(line)).filter(Boolean).join('\n')}
                                         </div>
 
                                         <div className="space-y-3 pt-10 border-t-2 border-black/10">

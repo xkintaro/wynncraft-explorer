@@ -15,8 +15,11 @@ export function stripHtml(html: string): string {
         .replace(/[✤✦✣✹✽]/g, '')
         .replace(/[\uE000-\uF8FF]/g, '')
         .replace(/&nbsp;/g, ' ')
+        .replace(/[ \t]+/g, ' ')
+        .split('\n')
+        .map(line => line.trim())
+        .join('\n')
         .replace(/\n{3,}/g, '\n\n')
-        .replace(/\s+/g, ' ')
         .trim();
 }
 
